@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  active: false
+  notifies: false
+  wallet_id: 
+
+two:
+  active: false
+  notifies: false
+  wallet_id: 

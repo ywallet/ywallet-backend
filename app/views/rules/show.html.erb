@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Active:</strong>
+  <%= @rule.active %>
+</p>
+
+<p>
+  <strong>Notifies:</strong>
+  <%= @rule.notifies %>
+</p>
+
+<p>
+  <strong>Wallet:</strong>
+  <%= @rule.wallet %>
+</p>
+
+<%= link_to 'Edit', edit_rule_path(@rule) %> |
+<%= link_to 'Back', rules_path %>
