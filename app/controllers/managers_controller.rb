@@ -29,6 +29,7 @@ class ManagersController < ApplicationController
   def create
     @manager = Manager.new(manager_params)
 
+
     respond_to do |format|
       if @manager.save
 
@@ -75,6 +76,6 @@ class ManagersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def manager_params
-      params.require(:manager).permit(:manager, account_attributes:[:uid,:name,:email,:password,:password_confirmation])
+      params.require(:manager).permit(:manager, account_attributes:[:uid,:provider,:name,:email,:password,:password_confirmation])
     end
 end
