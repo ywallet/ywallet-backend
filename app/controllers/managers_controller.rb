@@ -17,6 +17,7 @@ class ManagersController < ApplicationController
   # GET /managers/new
   def new
     @manager = Manager.new
+    @account = @manager.build_account
   end
 
   # GET /managers/1/edit
@@ -30,6 +31,9 @@ class ManagersController < ApplicationController
 
     respond_to do |format|
       if @manager.save
+
+        @manager.account.wallet = Wallet.new
+
         format.html { redirect_to @manager, notice: 'Manager was successfully created.' }
         format.json { render :show, status: :created, location: @manager }
       else
@@ -71,6 +75,6 @@ class ManagersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def manager_params
-      params[:manager]
+      params.require(:manager).permit(:manager, account_attributes:[:uid,:name,:email,:password,:password_confirmation])
     end
 end

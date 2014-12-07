@@ -11,6 +11,23 @@
     </div>
   <% end %>
 
+
+  <%= f.fields_for :account do |user_form| %>
+    <div class="field"><%= user_form.label :uid %><br />
+    <%= user_form.text_field :uid %></div>
+    <div class="field"><%= user_form.label :name %><br />
+    <%= user_form.text_field :name %></div>
+    <div class="field"><%= user_form.label :email %><br />
+    <%= user_form.email_field :email %></div>
+    <div class="field"><%= user_form.label :password %><br />
+    <%= user_form.password_field :password %></div>
+    <div class="field"><%= user_form.label :password_confirmation %><br />
+    <%= user_form.password_field :password_confirmation %></div>
+  <% end %>
+
+
+
+
   <div class="actions">
     <%= f.submit %>
   </div>
