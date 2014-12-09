@@ -26,10 +26,16 @@ class ChildrenController < ApplicationController
   # POST /children
   # POST /children.json
   def create
-    @child = Child.new(child_params)
+    c_params = child_params
+    c_params[:account_attributes][:uid] = c_params[:account_attributes][:email]
+    c_params[:account_attributes][:provider] = "email"
+    @child = Child.new(c_params)
 
     respond_to do |format|
       if @child.save
+
+        @child.account.wallet = Wallet.new(balance: 0)
+        
         format.html { redirect_to @child, notice: 'Child was successfully created.' }
         format.json { render :show, status: :created, location: @child }
       else
@@ -71,6 +77,6 @@ class ChildrenController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def child_params
-      params.require(:child).permit(:manager_id)
+      params.require(:child).permit(:manager_id, account_attributes:[:name,:email,:password,:password_confirmation])
     end
 end

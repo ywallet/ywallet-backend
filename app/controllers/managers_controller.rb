@@ -27,13 +27,15 @@ class ManagersController < ApplicationController
   # POST /managers
   # POST /managers.json
   def create
-    @manager = Manager.new(manager_params)
-
+    m_params = manager_params
+    m_params[:account_attributes][:uid] = m_params[:account_attributes][:email]
+    m_params[:account_attributes][:provider] = "email"
+    @manager = Manager.new(m_params)
 
     respond_to do |format|
       if @manager.save
 
-        @manager.account.wallet = Wallet.new
+        @manager.account.wallet = Wallet.new(balance: 0)
 
         format.html { redirect_to @manager, notice: 'Manager was successfully created.' }
         format.json { render :show, status: :created, location: @manager }
@@ -76,6 +78,6 @@ class ManagersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def manager_params
-      params.require(:manager).permit(:manager, account_attributes:[:uid,:provider,:name,:email,:password,:password_confirmation])
+      params.require(:manager).permit(account_attributes:[:name,:email,:password,:password_confirmation])
     end
 end
