@@ -1,82 +1,52 @@
 class ChildrenController < ApplicationController
-  before_action :set_child, only: [:show, :edit, :update, :destroy]
   # Add this line when authentication is in place
-  #before_action :authenticate_user!
+  #before_action :authenticate_account!
 
   # GET /children
-  # GET /children.json
   def index
-    @children = Child.all
+    render json: Child.all
   end
 
   # GET /children/1
-  # GET /children/1.json
   def show
-  end
-
-  # GET /children/new
-  def new
-    @child = Child.new
-  end
-
-  # GET /children/1/edit
-  def edit
+    render json: Child.find(params[:id])
   end
 
   # POST /children
-  # POST /children.json
   def create
-    c_params = child_params
-    c_params[:account_attributes][:uid] = c_params[:account_attributes][:email]
-    c_params[:account_attributes][:provider] = "email"
-    @child = Child.new(c_params)
+    child = Child.create(child_params)
 
-    respond_to do |format|
-      if @child.save
-
-        @child.account.wallet = Wallet.new(balance: 0)
-        
-        format.html { redirect_to @child, notice: 'Child was successfully created.' }
-        format.json { render :show, status: :created, location: @child }
-      else
-        format.html { render :new }
-        format.json { render json: @child.errors, status: :unprocessable_entity }
-      end
+    if child.persisted?
+      render json: child, status: 201
+    else
+      render json: { errors: child.errors.full_messages }.to_json, status: 422
     end
   end
 
   # PATCH/PUT /children/1
-  # PATCH/PUT /children/1.json
   def update
-    respond_to do |format|
-      if @child.update(child_params)
-        format.html { redirect_to @child, notice: 'Child was successfully updated.' }
-        format.json { render :show, status: :ok, location: @child }
-      else
-        format.html { render :edit }
-        format.json { render json: @child.errors, status: :unprocessable_entity }
-      end
+    child = Child.find(params[:id])
+
+    if child.update(child_params)
+      render json: child
+    else
+      render json: { errors: child.errors.full_messages }.to_json, status: :unprocessable_entity
     end
   end
 
   # DELETE /children/1
-  # DELETE /children/1.json
   def destroy
-    @child.destroy
-    respond_to do |format|
-      format.html { redirect_to children_url, notice: 'Child was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    child = Child.find(params[:id])
+    child.destroy
+    head :no_content
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_child
-      @child = Child.find(params[:id])
-    end
-
     # Never trust parameters from the scary internet, only allow the white list through.
     def child_params
-      params.require(:child).permit(:manager_id, account_attributes:[:name,:email,:password,:password_confirmation])
+      c_params = params.require(:child).permit(:manager_id, account_attributes:[:name,:email,:password,:password_confirmation])
+      c_params[:account_attributes][:uid] = c_params[:account_attributes][:email]
+      c_params[:account_attributes][:provider] = "email"
+      c_params
     end
 end
