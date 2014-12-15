@@ -28,7 +28,7 @@ API subdomain
 -------------
 
 Foi adicionado o subdominio api.ywallet[...] para se fazer pedidos à api.
-Para testar isto no localhost é necessário instalar o prax ou o pow (linux e mac respectivamente) e podem ver como fazê-lo aqui: http://apionrails.icalialabs.com/book/chapter\_one#sec-pow_prax
+Para testar isto no localhost é necessário instalar o prax ou o pow (linux e mac respectivamente) e podem ver como fazê-lo aqui: http://apionrails.icalialabs.com/book/chapter_one#sec-pow_prax
 
 Depois para testar é fazer os testes de cima mas com a seguinte alteração:
 
