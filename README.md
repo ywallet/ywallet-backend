@@ -33,6 +33,6 @@ Para testar isto no localhost é necessário instalar o prax ou o pow (linux e m
 Depois para testar é fazer os testes de cima mas com a seguinte alteração:
 
 Registo Pais:
-- Request: curl -H "Content-Type: application/json" -X POST -d '{"manager": {"account_attributes": {"name":"teste", "email":"teste@teste.com", "password":"987654321", "password_confirmation":"987654321"}}}' api.[nome\_do\_projecto.dev:3000/managers.json
+- Request: curl -H "Content-Type: application/json" -X POST -d '{"manager": {"account_attributes": {"name":"teste", "email":"teste@teste.com", "password":"987654321", "password_confirmation":"987654321"}}}' api.[nome\_do\_projecto].dev:3000/managers.json
 
 Para já ainda só está commited para um branch, depois faz-se merge.
