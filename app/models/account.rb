@@ -9,6 +9,10 @@ class Account < ActiveRecord::Base
   has_one :wallet
 
   def is_manager?
-  	@manager_id != nil
+    manager_id != nil && child_id == nil
+  end
+
+  def is_child?
+    child_id != nil && manager_id == nil
   end
 end

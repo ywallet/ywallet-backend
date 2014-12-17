@@ -1,6 +1,6 @@
 class ChildrenController < ApplicationController
-  # Add this line when authentication is in place
-  #before_action :authenticate_account!
+
+  load_and_authorize_resource
 
   # GET /children
   def index

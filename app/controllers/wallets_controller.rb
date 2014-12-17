@@ -1,7 +1,7 @@
 class WalletsController < ApplicationController
   before_action :set_wallet, only: [:show, :edit, :update, :destroy]
-  # Add this line when authentication is in place
-  #before_action :authenticate_user!
+
+  load_and_authorize_resource
 
   def index
     @wallets = Wallet.all

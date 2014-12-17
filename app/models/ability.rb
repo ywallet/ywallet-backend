@@ -2,16 +2,25 @@ class Ability
   include CanCan::Ability
 
   def initialize(account)
-    if account. is_manager?
+    account ||= Account.new
+    if account.is_manager?
+        puts account.id
+        puts account.manager_id
+        puts "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
         can :manage, Account, :id => account.id
         can :read, Manager, :id => account.manager_id
         can :manage, Child, :manager_id => account.manager_id
         can :read, Wallet, :account => { :child_id => account.manager.child_ids }
-    else      # is_children
+    elsif account.is_child?       # is_children
         can :manage, Account, :id => account.id
         can :read, Manager, :manager_id => account.child.manager_id
         can :manage, Child, :id => account.child_id
         can :manage, Wallet, :account_id => account.id
+        puts "YYYYYYYYYYYYYYYYY"
+    else
+        puts "adasdasdasdasdasdsdasda"
+        can :create, Manager
+        can :create, Child
     end
 
 

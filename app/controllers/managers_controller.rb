@@ -1,6 +1,6 @@
 class ManagersController < ApplicationController
-  # Add this line when authentication is in place
-  #before_action :authenticate_account!
+
+  authorize_resource
 
   # GET /managers
   def index
@@ -9,7 +9,12 @@ class ManagersController < ApplicationController
 
   # GET /managers/1
   def show
-    render json: Manager.find(params[:id])
+    manager = Manager.find(params[:id])
+    if can? :read, manager
+      render json: manager
+    else
+      render json: { errors: "You can't access this manager" }, status: 403
+    end
   end
 
   # POST /managers
@@ -39,6 +44,17 @@ class ManagersController < ApplicationController
     manager = Manager.find(params[:id])
     manager.destroy
     head :no_content
+  end
+
+  # GET /managers/:id/invitations
+  def invitations
+    manager = Manager.find(params[:id])
+    authorize! :invite, manager
+    if can? :invite, manager
+      render json: 'invitations'
+    else
+      render json: 'nope'
+    end
   end
 
   private

@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       resources :children
 
       resources :managers
+      
     end
   end
 end
