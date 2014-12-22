@@ -2,7 +2,9 @@ class Account < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
   before_create :skip_confirmation!
 
-  after_save { @wallet = Wallet.new(balance: 0) }
+  after_save { 
+    Wallet.create(balance: 0, account_id: id) 
+  }
 
   belongs_to :manager
   belongs_to :child

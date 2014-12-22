@@ -1,5 +1,5 @@
-class ChildSerializer < ActiveModel::Serializer
-	attributes :id, :name, :nickname, :email, :birthday, :phone, :address, :account_id, :wallet_id, :manager_id
+class ManagerSerializer < ActiveModel::Serializer
+	attributes :id, :name, :nickname, :email, :birthday, :phone, :address, :account_id, :wallet_id, :children_ids
 
 	def name
 		object.account.name if object.account != nil
@@ -31,13 +31,19 @@ class ChildSerializer < ActiveModel::Serializer
 
 	def wallet_id
 		object.wallet.id if object.wallet != nil
+		#caso os users tenham a wallet a null, isto estourava
 	end
 
-	def manager_id
-		object.manager_id if object.manager_id != nil
+	def children_ids
+		object.child_ids
+		#imprime os ids dos filhos
 	end
+
+	#se as seguintes linhas estiverem descomentadas
+	#serão apresentadas todas as propriedades de account,
+	#wallet e children associadas ao manager
 
 	#has_one :account
 	#has_one :wallet, through: :account
-	#belongs_to :manager
+	#has_many :children
 end
