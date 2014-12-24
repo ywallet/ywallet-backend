@@ -1,46 +1,59 @@
 class WalletsController < ApplicationController
-  before_action :set_wallet, only: [:show, :edit, :update, :destroy]
 
-  load_and_authorize_resource
+  authorize_resource
 
+=begin
   def index
-    @wallets = Wallet.all
-    respond_with(@wallets)
+    render json: Wallet.all
   end
+=end
 
   def show
-    respond_with(@wallet)
+    wallet = Wallet.find(params[:id])
+    if can? :read, wallet
+      render json: wallet
+    else
+      render json: { errors: "You can't access this wallet" }, status: 403
+    end
   end
 
-  def new
-    @wallet = Wallet.new
-    respond_with(@wallet)
-  end
-
-  def edit
-  end
-
+=begin
   def create
-    @wallet = Wallet.new(wallet_params)
-    @wallet.save
-    respond_with(@wallet)
-  end
+    wallet = Wallet.create(wallet_params)
 
+    if wallet.persisted?
+      render json: wallet, status: 201
+    else
+      render json: { errors: wallet.errors.full_messages }.to_json, status: 422
+    end
+  end
+=end
+
+=begin
   def update
-    @wallet.update(wallet_params)
-    respond_with(@wallet)
-  end
+    wallet = Wallet.find(params[:id])
 
-  def destroy
-    @wallet.destroy
-    respond_with(@wallet)
+    if can? :update, wallet
+      if wallet.update(wallet_params)
+        render json: wallet
+      else
+        render json: { errors: wallet.errors.full_messages }.to_json, status: :unprocessable_entity
+      end
+    else
+      render json: { errors: "You can't access this wallet" }, status: 403
+    end
   end
+=end
+
+=begin
+  def destroy
+    wallet = Wallet.find(params[:id])
+    wallet.destroy
+    head :no_content
+  end
+=end
 
   private
-    def set_wallet
-      @wallet = Wallet.find(params[:id])
-    end
-
     def wallet_params
       params.require(:wallet).permit(:balance, :account_id)
     end

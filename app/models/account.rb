@@ -2,8 +2,10 @@ class Account < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
   before_create :skip_confirmation!
 
-  after_save { 
-    Wallet.create(balance: 0, account_id: id) 
+  after_create {
+    #a account está constantemente a ser salva, para atualizar tokens
+    #logo after_save estaria sempre a ser chamado
+    Wallet.create(balance: 0, account_id: id)
   }
 
   belongs_to :manager

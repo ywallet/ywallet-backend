@@ -3,22 +3,48 @@ class Ability
 
   def initialize(account)
     account ||= Account.new
+
+    alias_action :create, :read, :update, :destroy, :to => :crud
+
     if account.is_manager?
-        puts account.id
-        puts account.manager_id
-        puts "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-        can :manage, Account, :id => account.id
+
+        puts "MANAGER MANAGER MANAGER MANAGER"
+        #manager pode consultar os seus dados da sua conta e alterá-los
         can :read, Manager, :id => account.manager_id
-        can :manage, Child, :manager_id => account.manager_id
+        can :update, Manager, :id => account.manager_id   
+
+        #manager pode consultar e alterar os dados dos seus filhos
+        can :read, Child, :manager_id => account.manager_id
+        can :update, Child, :manager_id => account.manager_id
+
+        #manager pode consultar a wallet do(s) seu(s) filhos
         can :read, Wallet, :account => { :child_id => account.manager.child_ids }
-    elsif account.is_child?       # is_children
-        can :manage, Account, :id => account.id
-        can :read, Manager, :manager_id => account.child.manager_id
-        can :manage, Child, :id => account.child_id
+
+        #manager pode gerir a sua propria wallet (de momento só pode consultar)
         can :manage, Wallet, :account_id => account.id
-        puts "YYYYYYYYYYYYYYYYY"
+
+        #manager pode criar regras, ler, atualizar, destruir, na wallet do(s) filho(s)
+        can :crud, Rule, :wallet => account.manager.children.collect{ |x| x.wallet }
+
+    elsif account.is_child?       # is_children
+
+        puts "CHILD CHILD CHILD CHILD"
+        #crianca pode consultar os seus dados da sua conta e alterá-los
+        can :read, Child, :id => account.child_id
+        can :update, Child, :id => account.child_id
+
+        #crianca pode consultar os dados do seu manager
+        can :read, Manager, :id => account.child.manager_id
+
+        #crianca pode gerir a sua wallet (de momento só pode consultar)
+        can :manage, Wallet, :account_id => account.id
+
+        #crianca pode consultar as regras aplicadas à sua wallet
+        can :read, Rule, :wallet => account.child.wallet
+        
     else
-        puts "adasdasdasdasdasdsdasda"
+
+        puts "GUEST GUEST GUEST GUEST"
         can :create, Manager
         can :create, Child
     end

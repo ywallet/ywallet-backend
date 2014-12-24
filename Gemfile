@@ -27,6 +27,8 @@ gem 'active_model_serializers'
 
 gem 'swagger-docs'
 
+gem 'coinbase'
+
 group :production do
 	gem 'pg'
 end
