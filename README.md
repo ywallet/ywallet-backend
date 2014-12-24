@@ -5,6 +5,8 @@ ywallet-backend
 REGISTO E LOGIN
 ===============
 
+Nota: o Uid tem de ser passado como parâmetro no registo! Existem algumas implicações se for manualmente alterado ao nível do controller (como estava feito).
+
 Registo Pais:
 - Request: curl -D- -H "Content-Type: application/json" -X POST -d '{"manager": {"account_attributes": {"name":"teste", "email":"teste@teste.com", "password":"987654321", "password_confirmation":"987654321", "uid":"teste@teste.com"}}}' http://localhost:3000/managers.json
 - Response: {"id":1, "created_at":"2014-12-09T12:55:03.974Z", "updated_at":"2014-12-09T12:55:03.974Z"}
@@ -26,11 +28,11 @@ O QUE PODEM FAZER COMO MANAGER:
 ===============================
 (Não esquecer que em cada pedido é necessário indicar o Access-Token, Client, Token-Type, Expiry e Uid)
 
-Consultar Manager:
-- curl -D- -H "Content-Type: application/json" -H "Access-Token: x" -H "Client: x" -H "Token-Type: Bearer" -H "Expiry: x" -H "Uid: x" http://localhost:3000/managers/1.json
+- Consultar Manager:
+curl -D- -H "Content-Type: application/json" -H "Access-Token: x" -H "Client: x" -H "Token-Type: Bearer" -H "Expiry: x" -H "Uid: x" http://localhost:3000/managers/1.json
 
-Editar Manager:
-- curl -D- -H "Content-Type: application/json" -H "Access-Token: x" -H "Client: x" -H "Token-Type: Bearer" -H "Expiry: x" -H "Uid: x" -X PUT -d '{"manager": {"account_attributes": {"nickname":"nicktest1", "address":"Lisboa1"}}}' http://localhost:3000/managers/1.json
+- Editar Manager:
+curl -D- -H "Content-Type: application/json" -H "Access-Token: x" -H "Client: x" -H "Token-Type: Bearer" -H "Expiry: x" -H "Uid: x" -X PUT -d '{"manager": {"account_attributes": {"nickname":"nicktest1", "address":"Lisboa1"}}}' http://localhost:3000/managers/1.json
 
 	Repostas:
 
@@ -55,15 +57,16 @@ Editar Manager:
 		    "errors": "You can't access this manager"
 		}
 
-Consultar Criança:
-- curl -D- -H "Content-Type: application/json" -H "Access-Token: x" -H "Client: x" -H "Token-Type: Bearer" -H "Expiry: x" -H "Uid: x" http://localhost:3000/children/4.json
+- Consultar Criança:
+curl -D- -H "Content-Type: application/json" -H "Access-Token: x" -H "Client: x" -H "Token-Type: Bearer" -H "Expiry: x" -H "Uid: x" http://localhost:3000/children/4.json
 
-Editar Criança:
-- curl -D- -H "Content-Type: application/json" -H "Access-Token: x" -H "Client: x" -H "Token-Type: Bearer" -H "Expiry: x" -H "Uid: x" -X PUT -d '{"child": {"account_attributes": {"nickname":"nicktest1", "address":"Lisboa1"}}}' http://localhost:3000/children/4.json
+- Editar Criança:
+curl -D- -H "Content-Type: application/json" -H "Access-Token: x" -H "Client: x" -H "Token-Type: Bearer" -H "Expiry: x" -H "Uid: x" -X PUT -d '{"child": {"account_attributes": {"nickname":"nicktest1", "address":"Lisboa1"}}}' http://localhost:3000/children/4.json
 
 	Repostas:
 
 	- Sucesso (no caso de editar, os campos alterados aparecem alterados)
+		{
 		    "id": 4,
 		    "name": "maria",
 		    "nickname": "maria9",
@@ -81,8 +84,8 @@ Editar Criança:
 	    "errors": "You can't access this child"
 		}
 
-Consultar Wallet da Criança:
-- curl -D- -H "Content-Type: application/json" -H "Access-Token: x" -H "Client: x" -H "Token-Type: Bearer" -H "Expiry: x" -H "Uid: x" http://localhost:3000/wallets/9.json
+- Consultar Wallet da Criança:
+curl -D- -H "Content-Type: application/json" -H "Access-Token: x" -H "Client: x" -H "Token-Type: Bearer" -H "Expiry: x" -H "Uid: x" http://localhost:3000/wallets/9.json
 
 	Repostas:
 
@@ -91,9 +94,7 @@ Consultar Wallet da Criança:
 		    "id": 9,
 		    "balance": 0,
 		    "account_id": 9,
-		    "rule_ids": [
-
-		    ]
+		    "rule_ids": [ ]
 		}
 
 	- Insucesso
@@ -101,21 +102,17 @@ Consultar Wallet da Criança:
 	    "errors": "You can't access this wallet"
 		}
 
-Adicionar Regra:
+- Adicionar Regra:
+curl -D- -H "Content-Type: application/json" -H "Access-Token: x" -H "Client: x" -H "Token-Type: Bearer" -H "Expiry: x" -H "Uid: x" -X POST -d '{"rule": {"active":"false","notifies":"false","wallet_id":8}}' http://localhost:3000/rules.json
 
-- curl -D- -H "Content-Type: application/json" -H "Access-Token: x" -H "Client: x" -H "Token-Type: Bearer" -H "Expiry: x" -H "Uid: x" -X POST -d '{"rule": {"active":"false","notifies":"false","wallet_id":8}}' http://localhost:3000/rules.json
+- Consultar Regra:
+curl -D- -H "Content-Type: application/json" -H "Access-Token: x" -H "Client: x" -H "Token-Type: Bearer" -H "Expiry: x" -H "Uid: x" -X GET http://localhost:3000/rules/2
 
-Consultar Regra:
+- Modificar Regra:
+curl -D- -H "Content-Type: application/json" -H "Access-Token: x" -H "Client: x" -H "Token-Type: Bearer" -H "Expiry: x" -H "Uid: x" -X PUT -d '{"rule": {"active":"true"}}' http://localhost:3000/rules/10
 
-- curl -D- -H "Content-Type: application/json" -H "Access-Token: x" -H "Client: x" -H "Token-Type: Bearer" -H "Expiry: x" -H "Uid: x" -X GET http://localhost:3000/rules/2
-
-Modificar Regra:
-
-- curl -D- -H "Content-Type: application/json" -H "Access-Token: x" -H "Client: x" -H "Token-Type: Bearer" -H "Expiry: x" -H "Uid: x" -X PUT -d '{"rule": {"active":"true"}}' http://localhost:3000/rules/10
-
-Apagar Regra:
-
-- curl -D- -H "Content-Type: application/json" -H "Access-Token: x" -H "Client: x" -H "Token-Type: Bearer" -H "Expiry: x" -H "Uid: x" -X DELETE http://localhost:3000/rules/4
+- Apagar Regra:
+curl -D- -H "Content-Type: application/json" -H "Access-Token: x" -H "Client: x" -H "Token-Type: Bearer" -H "Expiry: x" -H "Uid: x" -X DELETE http://localhost:3000/rules/4
 
 
 O QUE PODEM FAZER COMO CHILD:
