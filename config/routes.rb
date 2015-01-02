@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  
+
   defaults format: :json do
     constraints format: :json do
       resources :rules
@@ -10,6 +12,8 @@ Rails.application.routes.draw do
       resources :children
 
       resources :managers
+
+      resources :bitcoin_accounts
       
     end
   end

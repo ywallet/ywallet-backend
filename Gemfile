@@ -29,6 +29,8 @@ gem 'swagger-docs'
 
 gem 'coinbase'
 
+#gem 'omniauth-coinbase'
+
 group :production do
 	gem 'pg'
 end

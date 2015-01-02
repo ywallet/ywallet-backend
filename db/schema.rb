@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141207221001) do
+ActiveRecord::Schema.define(version: 20150102174002) do
 
   create_table "accounts", force: true do |t|
     t.string   "provider"
@@ -48,6 +48,17 @@ ActiveRecord::Schema.define(version: 20141207221001) do
   add_index "accounts", ["manager_id"], name: "index_accounts_on_manager_id"
   add_index "accounts", ["reset_password_token"], name: "index_accounts_on_reset_password_token", unique: true
   add_index "accounts", ["uid", "provider"], name: "index_accounts_on_uid_and_provider", unique: true
+
+  create_table "bitcoin_accounts", force: true do |t|
+    t.string   "access_token",  null: false
+    t.string   "refresh_token", null: false
+    t.integer  "expires_in",    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "account_id"
+  end
+
+  add_index "bitcoin_accounts", ["account_id"], name: "index_bitcoin_accounts_on_account_id"
 
   create_table "children", force: true do |t|
     t.integer  "manager_id"

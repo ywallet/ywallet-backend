@@ -52,12 +52,14 @@ puts "1. manager"
 puts "2. children"
 puts "3. rules"
 puts "4. wallets"
+puts "5. bitcoin account"
 opcao = gets.chomp
 
 recurso = "managers" if opcao.to_i == 1
 recurso = "children" if opcao.to_i == 2
 recurso = "rules" if opcao.to_i == 3
 recurso = "wallets" if opcao.to_i == 4
+recurso = "bitcoin_accounts" if opcao.to_i == 5
 
 
 puts "metodo?"
@@ -83,12 +85,12 @@ data = ""
 if opcao.to_i.between?(1,2)
 	puts "data?"
 	aux = gets.chomp
-	data = "-d '"+aux+"'"
+	data = "--data '"+aux+"'"
 end
 
 5.times{ puts "" }
 	
-	puts ""+metodo+" "+data+" http://localhost:3000/"+recurso+""+id+""
+	puts "curl -H \"Content-Type: application/json\" -H \"Access-Token: "+token+"\" -H \"Client: "+client+"\" -H \"Token-Type: Bearer\" -H \"Expiry: "+expiry+"\" -H \"Uid: "+uid+"\" -X "+metodo+" "+data+" http://localhost:3000/"+recurso+""+id
 	system "curl -H \"Content-Type: application/json\" -H \"Access-Token: "+token+"\" -H \"Client: "+client+"\" -H \"Token-Type: Bearer\" -H \"Expiry: "+expiry+"\" -H \"Uid: "+uid+"\" -X "+metodo+" "+data+" http://localhost:3000/"+recurso+""+id+""" | json_reformat"
 
 5.times{ puts "" }
