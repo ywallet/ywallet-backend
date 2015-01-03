@@ -13,9 +13,8 @@ class BitcoinAccount < ActiveRecord::Base
 
 	def balance
 		coinbase = init
-		balance = coinbase.balance
-		access_token = coinbase.credentials.access_token
-		balance
+		access_token = coinbase.credentials[:access_token]
+		coinbase.balance
 	end
 
 end

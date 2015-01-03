@@ -1,3 +1,8 @@
 class BitcoinAccountSerializer < ActiveModel::Serializer
-  attributes :id
+  attributes :id, :balance
+
+  def balance
+  	object.balance.to_s
+  end
+
 end

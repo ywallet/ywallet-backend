@@ -11,7 +11,6 @@ class WalletsController < ApplicationController
   def show
     wallet = Wallet.find(params[:id])
     if can? :read, wallet
-      Wallet.send_money
       render json: wallet
     else
       render json: { errors: "You can't access this wallet" }, status: 403

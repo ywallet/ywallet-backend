@@ -2,9 +2,8 @@ class BitcoinAccountsController < ApplicationController
 
   def show
     bitcoin_account = set_bitcoin_account
-    balance = { balance: bitcoin_account.balance }
-    bitcoin_account.save
-    render json: balance
+    bitcoin_account.save #nao tem efeito isto
+    render json: bitcoin_account
   end
 
   def create
