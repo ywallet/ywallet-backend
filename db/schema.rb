@@ -76,20 +76,11 @@ ActiveRecord::Schema.define(version: 20150102174002) do
   create_table "rules", force: true do |t|
     t.boolean  "active"
     t.boolean  "notifies"
-    t.integer  "wallet_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "rules", ["wallet_id"], name: "index_rules_on_wallet_id"
-
-  create_table "wallets", force: true do |t|
-    t.integer  "balance"
     t.integer  "account_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "wallets", ["account_id"], name: "index_wallets_on_account_id"
+  add_index "rules", ["account_id"], name: "index_rules_on_account_id"
 
 end

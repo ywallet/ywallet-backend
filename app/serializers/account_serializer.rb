@@ -3,5 +3,5 @@ class AccountSerializer < ActiveModel::Serializer
 
 	#belongs_to :manager
 	#belongs_to :child
-	#has_one :wallet
+	#has_many :rules
 end

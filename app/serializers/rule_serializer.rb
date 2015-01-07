@@ -1,5 +1,5 @@
 class RuleSerializer < ActiveModel::Serializer
-  attributes :id, :active, :notifies, :wallet_id
+  attributes :id, :active, :notifies, :account_id
 
 	def active
 		object.active
@@ -9,9 +9,9 @@ class RuleSerializer < ActiveModel::Serializer
 		object.notifies
 	end
 
-	def wallet_id
-		object.wallet.id
+	def account_id
+		object.account.id
 	end
 
-  #belongs_to :wallet
+  #belongs_to :account
 end

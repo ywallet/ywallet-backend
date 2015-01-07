@@ -1,5 +1,5 @@
 class ManagerSerializer < ActiveModel::Serializer
-	attributes :id, :name, :nickname, :email, :birthday, :phone, :address, :account_id, :childrens_wallets, #:children_ids, :wallet_ids
+	attributes :id, :name, :nickname, :email, :birthday, :phone, :address, :account_id, :children_ids
 
 	def name
 		object.account.name if object.account != nil
@@ -29,20 +29,9 @@ class ManagerSerializer < ActiveModel::Serializer
 		object.account.id if object.account != nil
 	end
 
-	def childrens_wallets
-		object.childrens_wallets
-	end
-
-
-=begin
 	def children_ids
 		object.child_ids
 	end
-
-	def wallet_ids
-		object.wallet_ids
-	end
-=end
 
 
 
@@ -51,6 +40,5 @@ class ManagerSerializer < ActiveModel::Serializer
 	#wallet e children associadas ao manager
 
 	#has_one :account
-	#has_one :wallet, through: :account
 	#has_many :children
 end

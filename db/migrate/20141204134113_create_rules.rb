@@ -3,7 +3,7 @@ class CreateRules < ActiveRecord::Migration
     create_table :rules do |t|
       t.boolean :active
       t.boolean :notifies
-      t.references :wallet, index: true
+      t.references :account, index: true
 
       t.timestamps
     end

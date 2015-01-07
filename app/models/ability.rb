@@ -17,14 +17,8 @@ class Ability
         can :read, Child, :manager_id => account.manager_id
         can :update, Child, :manager_id => account.manager_id
 
-        #manager pode consultar a wallet do(s) seu(s) filhos
-        can :read, Wallet, :account => { :child_id => account.manager.child_ids }
-
-        #manager pode gerir a sua propria wallet (de momento só pode consultar)
-        can :manage, Wallet, :account_id => account.id
-
-        #manager pode criar regras, ler, atualizar, destruir, na wallet do(s) filho(s)
-        can :crud, Rule, :wallet => account.manager.children.collect{ |x| x.wallet }
+        #manager pode criar, ler, atualizar, destruir regras do(s) filho(s)
+        can :crud, Rule, :account => { :child_id => account.manager.child_ids }
 
     elsif account.is_child?       # is_children
 
@@ -36,11 +30,8 @@ class Ability
         #crianca pode consultar os dados do seu manager
         can :read, Manager, :id => account.child.manager_id
 
-        #crianca pode gerir a sua wallet (de momento só pode consultar)
-        can :manage, Wallet, :account_id => account.id
-
-        #crianca pode consultar as regras aplicadas à sua wallet
-        can :read, Rule, :wallet => account.child.wallet
+        #crianca pode consultar as suas regras
+        can :read, Rule, :account => { :child_id => account.id }
         
     else
 

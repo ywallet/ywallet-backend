@@ -2,7 +2,6 @@ class BitcoinAccountsController < ApplicationController
 
   def show
     bitcoin_account = set_bitcoin_account
-    bitcoin_account.save #nao tem efeito isto
     render json: bitcoin_account
   end
 
@@ -14,7 +13,8 @@ class BitcoinAccountsController < ApplicationController
 
   def update
     bitcoin_account = set_bitcoin_account
-    bitcoin_account.update(bitcoin_account_params)
+    #TODO
+    #bitcoin_account.update(bitcoin_account_params)
     render json: bitcoin_account
   end
 

@@ -1,5 +1,5 @@
 class ChildSerializer < ActiveModel::Serializer
-	attributes :id, :name, :nickname, :email, :birthday, :phone, :address, :account_id, :wallet_id, :manager_id
+	attributes :id, :name, :nickname, :email, :birthday, :phone, :address, :account_id, :manager_id
 
 	def name
 		object.account.name if object.account != nil
@@ -29,15 +29,10 @@ class ChildSerializer < ActiveModel::Serializer
 		object.account.id if object.account != nil
 	end
 
-	def wallet_id
-		object.wallet.id if object.wallet != nil
-	end
-
 	def manager_id
 		object.manager_id if object.manager_id != nil
 	end
 
 	#has_one :account
-	#has_one :wallet, through: :account
 	#belongs_to :manager
 end
