@@ -11,10 +11,4 @@ class BitcoinAccount < ActiveRecord::Base
 		Coinbase::OAuthClient.new(ENV['COINBASE_API_KEY'], ENV['COINBASE_API_SECRET'], user_credentials)
 	end
 
-	def balance
-		coinbase = init
-		access_token = coinbase.credentials[:access_token]
-		coinbase.balance
-	end
-
 end
