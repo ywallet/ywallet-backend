@@ -70,9 +70,9 @@ class ManagersController < ApplicationController
 
   private
     def manager_params
-      m_params = params.require(:manager).permit(account_attributes:[:uid,:name,:nickname,:email,:birthday,:phone,:address,:password,:password_confirmation])
-      #m_params[:account_attributes][:uid] = m_params[:account_attributes][:email]
-      #m_params[:account_attributes][:provider] = "email"
+      m_params = params.require(:manager).permit(account_attributes:[:name,:nickname,:email,:birthday,:phone,:address,:password,:password_confirmation])
+      m_params[:account_attributes][:uid] = m_params[:account_attributes][:email]
+      m_params[:account_attributes][:provider] = "email"
       m_params
     end
 end
