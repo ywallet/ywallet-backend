@@ -1,5 +1,5 @@
 class ChildSerializer < ActiveModel::Serializer
-	attributes :id, :name, :nickname, :email, :birthday, :phone, :address, :account_id, :manager_id
+	attributes :id, :name, :nickname, :email, :birthday, :phone, :address, :account_id, :manager_id, :wallet_id, :token
 
 	def name
 		object.account.name if object.account != nil
@@ -31,6 +31,10 @@ class ChildSerializer < ActiveModel::Serializer
 
 	def manager_id
 		object.manager_id if object.manager_id != nil
+	end
+
+	def token
+		object.account.bitcoin_account if object.account != nil && object.account.bitcoin_account != nil
 	end
 
 	#has_one :account

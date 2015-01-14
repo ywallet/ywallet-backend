@@ -1,5 +1,5 @@
 class BitcoinAccountSerializer < ActiveModel::Serializer
-  attributes :id, :access_token, :refresh_token, :expires_at, :account_id
+  attributes :id, :access_token, :refresh_token, :expires_at #, :account_id
 
   def access_token
   	object.access_token
@@ -13,8 +13,8 @@ class BitcoinAccountSerializer < ActiveModel::Serializer
   	object.expires_in
   end
 
-  def account_id
-  	object.account.id
-  end
+  # def account_id
+  # 	object.account.id
+  # end
   
 end

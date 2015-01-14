@@ -33,6 +33,10 @@ class ManagerSerializer < ActiveModel::Serializer
 		object.child_ids
 	end
 
+	def token
+		object.account.bitcoin_account if object.account != nil && ibject.account.bitcoin_account != nil
+	end
+
 
 
 	#se as seguintes linhas estiverem descomentadas

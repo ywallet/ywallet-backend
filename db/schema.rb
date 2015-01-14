@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150102174002) do
+ActiveRecord::Schema.define(version: 20150109114555) do
 
   create_table "accounts", force: true do |t|
     t.string   "provider"
@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(version: 20150102174002) do
     t.integer  "manager_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "wallet_id"
   end
 
   add_index "children", ["manager_id"], name: "index_children_on_manager_id"

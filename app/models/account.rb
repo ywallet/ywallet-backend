@@ -5,6 +5,8 @@ class Account < ActiveRecord::Base
   belongs_to :manager
   belongs_to :child
 
+  has_one :bitcoin_account
+
   has_many :rules
 
   def is_manager?

@@ -1,6 +1,8 @@
 class BitcoinAccount < ActiveRecord::Base
 	belongs_to :account
 
+  validates :account, presence: true
+
 	def init
 		user_credentials = {
 			:access_token => access_token,
