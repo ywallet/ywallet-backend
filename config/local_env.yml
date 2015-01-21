@@ -8,3 +8,4 @@
 # makes 'Your_Gmail_Username' available as ENV["GMAIL_USERNAME"]
 COINBASE_API_KEY: '694fc2f618facf30b3b41726ee6d0ac04c650669ca3d114cb0bae4223cecade3'
 COINBASE_API_SECRET: '3e7cfd07d829211ac50dd6486fe677ca76e965f25ad7d68e67e845e0d4a213e7'
+COINBASE_REDIRECT_URI: 'https://ywallet.callback/coinbase/'

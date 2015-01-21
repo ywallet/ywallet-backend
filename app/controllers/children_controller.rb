@@ -3,11 +3,14 @@ class ChildrenController < ApplicationController
   authorize_resource
 
   # GET /children
-=begin
   def index
-    render json: Child.all
+    cur_acc = current_account
+    if cur_acc.is_child?
+      render json: cur_acc.child
+    else
+      render json: { errors: "You don't have permission" }, status: 403
+    end
   end
-=end
 
   # GET /children/1
   def show
@@ -21,12 +24,25 @@ class ChildrenController < ApplicationController
 
   # POST /children
   def create
-    child = Child.create(child_params)
+    if can? :create, Child
+      name = child_params[:account_attributes][:name]
+      if name == nil
+        name = "random"
 
-    if child.persisted?
-      render json: child, status: 201
+      wallet_id = current_account.bitcoin_account.create_wallet(name)
+      if wallet_id
+        child = Child.create(child_params.merge(:wallet_id => wallet_id))
+
+        if child.persisted?
+          render json: child, status: 201
+        else
+          render json: { errors: child.errors.full_messages }.to_json, status: 422
+        end
+      else
+        render json: { errors: "Couldn't create a wallet for the child" }, status: 422
+      end
     else
-      render json: { errors: child.errors.full_messages }.to_json, status: 422
+      render json: { errors: "You can't create children" }, status: 403
     end
   end
 
@@ -58,9 +74,9 @@ class ChildrenController < ApplicationController
   private
     # Never trust parameters from the scary internet, only allow the white list through.
     def child_params
-      c_params = params.require(:child).permit(:manager_id, account_attributes:[:uid,:name,:nickname,:email,:birthday,:phone,:address,:password,:password_confirmation])
-      #c_params[:account_attributes][:uid] = c_params[:account_attributes][:email]
-      #c_params[:account_attributes][:provider] = "email"
+      c_params = params.require(:child).permit(:manager_id, account_attributes:[:name,:nickname,:email,:birthday,:phone,:address,:password,:password_confirmation])
+      c_params[:account_attributes][:uid] = c_params[:account_attributes][:email]
+      c_params[:account_attributes][:provider] = "email"
       c_params
     end
 end

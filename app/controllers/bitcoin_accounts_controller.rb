@@ -1,5 +1,9 @@
+require 'oauth2'
+
 class BitcoinAccountsController < ApplicationController
-#ENV['COINBASE_CLIENT_ID'], ENV['COINBASE_CLIENT_SECRET']
+
+  authorize_resource
+
   def show
     bitcoin_account = set_bitcoin_account
     render json: bitcoin_account
@@ -7,8 +11,11 @@ class BitcoinAccountsController < ApplicationController
 
   def create
     if can? :create, BitcoinAccount
-      code = bitcoin_account_params[:authentication_code]
-      client = OAuth2::Client.new(ENV['COINBASE_CLIENT_ID'], ENV['COINBASE_CLIENT_SECRET'], site: 'https://coinbase.com')
+      client_id = '694fc2f618facf30b3b41726ee6d0ac04c650669ca3d114cb0bae4223cecade3'
+      client_secret = '3e7cfd07d829211ac50dd6486fe677ca76e965f25ad7d68e67e845e0d4a213e7'
+      redirect_uri = 'https://ywallet.callback/coinbase/'
+      code = bitcoin_account_params
+      client = OAuth2::Client.new(client_id, client_secret, site: 'https://coinbase.com')
       token_response = client.auth_code.get_token(code, redirect_uri: redirect_uri)
       bitcoin_account = BitcoinAccount.new
       bitcoin_account.access_token = token_response.token
@@ -16,17 +23,14 @@ class BitcoinAccountsController < ApplicationController
       bitcoin_account.expires_in = token_response.expires_in
       bitcoin_account.account = current_account
       bitcoin_account.save
-      render json: bitcoin_account
+      if bitcoin_account.persisted?
+        render json: { message: "OK" }
+      else
+        render json: { errors: "Could not create the access token" }, status: 422
+      end
     else
       render json: { errors: "You can't access this child" }, status: 403
     end
-  end
-
-  def update
-    bitcoin_account = set_bitcoin_account
-    #TODO
-    #bitcoin_account.update(bitcoin_account_params)
-    render json: bitcoin_account
   end
 
   def destroy
@@ -41,7 +45,6 @@ class BitcoinAccountsController < ApplicationController
     end
 
     def bitcoin_account_params
-      #params.require(:bitcoin_account).permit(:access_token, :refresh_token, :expires_in)
       params.require(:authentication_code)
     end
 end

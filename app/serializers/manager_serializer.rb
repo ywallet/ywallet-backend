@@ -1,5 +1,5 @@
 class ManagerSerializer < ActiveModel::Serializer
-	attributes :id, :name, :nickname, :email, :birthday, :phone, :address, :account_id, :children_ids
+	attributes :id, :name, :nickname, :email, :birthday, :phone, :address, :account_id, :children_ids, :balance
 
 	def name
 		object.account.name if object.account != nil
@@ -33,15 +33,14 @@ class ManagerSerializer < ActiveModel::Serializer
 		object.child_ids
 	end
 
-	def token
-		object.account.bitcoin_account if object.account != nil && ibject.account.bitcoin_account != nil
+	def balance
+		object.account.bitcoin_account.balance.to_s if (object.account != nil && object.account.bitcoin_account != nil)
 	end
 
 
-
 	#se as seguintes linhas estiverem descomentadas
-	#serão apresentadas todas as propriedades de account,
-	#wallet e children associadas ao manager
+	#serão apresentadas todas as propriedades de account
+	#e children associadas ao manager
 
 	#has_one :account
 	#has_many :children

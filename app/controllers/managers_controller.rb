@@ -3,11 +3,14 @@ class ManagersController < ApplicationController
   authorize_resource
 
   # GET /managers
-=begin
   def index
-    render json: Manager.all
+    cur_acc = current_account
+    if cur_acc.is_manager?
+      render json: cur_acc.manager
+    else
+      render json: { errors: "You don't have permission" }, status: 403
+    end
   end
-=end
 
   # GET /managers/1
   def show
@@ -52,19 +55,6 @@ class ManagersController < ApplicationController
     manager = Manager.find(params[:id])
     manager.destroy
     head :no_content
-  end
-=end
-
-  # GET /managers/:id/invitations
-=begin
-  def invitations
-    manager = Manager.find(params[:id])
-    authorize! :invite, manager
-    if can? :invite, manager
-      render json: 'invitations'
-    else
-      render json: 'nope'
-    end
   end
 =end
 

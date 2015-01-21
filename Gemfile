@@ -22,6 +22,7 @@ group :development do
     gem 'sqlite3'
 end
 
+gem 'oauth2'
 gem 'omniauth'
 gem 'devise_token_auth'
 gem 'cancancan', '~> 1.9'
@@ -31,7 +32,7 @@ gem 'swagger-docs'
 
 gem 'coinbase'
 
-#gem 'omniauth-coinbase'
+gem 'omniauth-coinbase'
 
 group :production do
 	gem 'pg'
