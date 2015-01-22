@@ -43,6 +43,20 @@ class BitcoinAccount < ActiveRecord::Base
 		result.transactions
 	end
 
+	def week_transactions
+		week_transactions = []
+
+		ts = transactions
+		ts.each do |t|
+			if Date.parse(t.transaction.created_at) > Date.today.at_beginning_of_week
+				#week_transactions.push(t)
+				week_transactions.push(t.transaction.id)
+			end
+		end
+
+		week_transactions
+	end
+
 	private
 
 		def refresh! oauth_token
