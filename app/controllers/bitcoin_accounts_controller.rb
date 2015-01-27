@@ -29,15 +29,57 @@ class BitcoinAccountsController < ApplicationController
         render json: { errors: "Could not create the access token" }, status: 422
       end
     else
-      render json: { errors: "You can't access this child" }, status: 403
+      render json: { errors: "Permission denied" }, status: 403
     end
   end
 
   def destroy
     bitcoin_account = set_bitcoin_account
-    bitcoin_account.destroy
-    head :no_content
+    if can? :destroy, bitcoin_account
+      bitcoin_account.destroy
+      head :no_content
+    else
+      render json: { errors: "Permission denied" }, status: 403
+    end
   end
+
+  # GET /transactions
+  def transactions
+    account = current_account
+    if account != nil
+      transactions = nil
+      if params[:period] == "week"
+        transactions = account.bitcoin_account.week_transactions
+      else
+        transactions = account.bitcoin_account.transactions
+      end
+      render json: transactions, each_serializer: TransactionSerializer
+    else
+      render json: { errors: "Permission denied" }, status: 403
+    end
+  end
+
+  # POST /payments
+  def payment
+    account = current_account
+    if account != nil
+      p = payment_params
+      bitcoin_account = account.bitcoin_account
+      r = nil
+      if account.is_child?
+        r = bitcoin_account.send_money(to: p.to, amount: p.amount, notes: p.notes, options: { account_id: account.child.wallet_id })
+      else
+        r = bitcoin_account.send_money(to: p.to, amount: p.amount, notes: p.notes)
+      end
+      if r.success?
+        render json: r.transaction, serializer: TransactionSerializer
+      else
+        render json: { errors: "Couldn't send money" }, status: 500
+    else
+      render json: { errors: "Permission denied" }, status: 403
+    end
+  end
+
 
   private
     def set_bitcoin_account
@@ -47,4 +89,9 @@ class BitcoinAccountsController < ApplicationController
     def bitcoin_account_params
       params.require(:authentication_code)
     end
+
+    def payment_params
+      params.require(:payment).permit(:to, :amount, :notes)
+    end
+
 end

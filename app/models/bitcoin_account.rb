@@ -29,9 +29,9 @@ class BitcoinAccount < ActiveRecord::Base
 		balance # Money (https://github.com/RubyMoney/money)
 	end
 
-	def send_money dest, amount
+	def send_money to, amount, notes=nil, options={}
 		coinbase = init
-		result = coinbase.send_money(dest, amount)
+		result = coinbase.send_money(to: to, amout: amount, notes: notes, options: options)
 		refresh! coinbase.oauth_token
 		result.success? # boolean
 	end
@@ -49,8 +49,8 @@ class BitcoinAccount < ActiveRecord::Base
 		ts = transactions
 		ts.each do |t|
 			if Date.parse(t.transaction.created_at) > Date.today.at_beginning_of_week
-				#week_transactions.push(t)
-				week_transactions.push(t.transaction.id)
+				week_transactions.push(t)
+				#week_transactions.push(t.transaction.id)
 			end
 		end
 
