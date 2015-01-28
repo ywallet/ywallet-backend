@@ -1,0 +1,171 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "/",
+  "resourcePath": "bitcoin_accounts",
+  "apis": [
+    {
+      "path": "bitcoin_accounts.json",
+      "operations": [
+        {
+          "summary": "Create a single Bitcoin Account",
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": null,
+              "message": "Success"
+            },
+            {
+              "code": 403,
+              "responseModel": null,
+              "message": "Permission denied"
+            },
+            {
+              "code": 422,
+              "responseModel": null,
+              "message": "Could not create the access token"
+            }
+          ],
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "authentication_code",
+              "type": "string",
+              "description": "Authentication code",
+              "required": true
+            }
+          ],
+          "method": "post",
+          "nickname": "BitcoinAccounts#create"
+        }
+      ]
+    },
+    {
+      "path": "bitcoin_accounts/{id}.json",
+      "operations": [
+        {
+          "summary": "Fetches a single bitcoin account",
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "BitcoinAccount",
+              "message": "Success"
+            }
+          ],
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Bitcoin Account ID",
+              "required": true
+            }
+          ],
+          "method": "get",
+          "nickname": "BitcoinAccounts#show"
+        }
+      ]
+    },
+    {
+      "path": "bitcoin_accounts/{id}.json",
+      "operations": [
+        {
+          "summary": "Delete a single Bitcoin Account",
+          "responseMessages": [
+            {
+              "code": 403,
+              "responseModel": null,
+              "message": "Permission denied"
+            }
+          ],
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Bitcoin Account ID",
+              "required": true
+            }
+          ],
+          "method": "delete",
+          "nickname": "BitcoinAccounts#destroy"
+        }
+      ]
+    },
+    {
+      "path": "transactions.json",
+      "operations": [
+        {
+          "summary": "Fetches all transactions of a single bitcoin account",
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": null,
+              "message": "Success"
+            },
+            {
+              "code": 403,
+              "responseModel": null,
+              "message": "Permission denied"
+            }
+          ],
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "period",
+              "type": "string",
+              "description": "Transactions Period",
+              "required": false
+            }
+          ],
+          "method": "get",
+          "nickname": "BitcoinAccounts#transactions"
+        }
+      ]
+    },
+    {
+      "path": "payments.json",
+      "operations": [
+        {
+          "summary": "Payment",
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "Transactions",
+              "message": "Success"
+            },
+            {
+              "code": 403,
+              "responseModel": null,
+              "message": "Permission denied"
+            },
+            {
+              "code": 500,
+              "responseModel": null,
+              "message": "Couldn't send money"
+            }
+          ],
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "payment",
+              "type": "string",
+              "description": "Payment Info",
+              "required": true,
+              "allowableValues": {
+                "valueType": "LIST",
+                "values": [
+                  "to",
+                  "amount",
+                  "notes"
+                ]
+              }
+            }
+          ],
+          "method": "post",
+          "nickname": "BitcoinAccounts#payment"
+        }
+      ]
+    }
+  ]
+}

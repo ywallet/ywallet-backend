@@ -2,11 +2,20 @@ class RulesController < ApplicationController
 
   authorize_resource
 
+  swagger_controller :rules, "Rules Management"
+
 =begin
   def index
     render json: Rule.all
   end
 =end
+
+  swagger_api :show do
+    summary "Fetches a single rule"
+    param :path, :id, :integer, :required, "Rule ID"
+    response :ok, "Success", :Rule
+    response :forbidden, "You can't access this rule"
+  end
 
   # GET /rules/1
   def show
@@ -16,6 +25,17 @@ class RulesController < ApplicationController
     else
       render json: { errors: "You can't access this rule" }, status: 403
     end
+  end
+
+  swagger_api :create do
+    summary "Create a single Rule"
+    param :form, :rule, :string, :required, "Rule object containing params"
+    param :form, :active, :string, :required, "rule[:active]"
+    param :form, :notifies, :string, :required, "rule[:notifies]"
+    param :form, :account_id, :integer, :required, "rule[:account_id]"
+    response :created, "Created", :Rule
+    response :unprocessable_entity, "Unprocessable Entity"
+    response :forbidden, "You can't create a rule for this wallet."
   end
 
   # POST /rules
@@ -32,6 +52,18 @@ class RulesController < ApplicationController
     else
       render json: { errors: "You can't create a rule for this wallet." }, status: 403
     end
+  end
+
+  swagger_api :update do
+    summary "Update information on a Rule"
+    param :path, :id, :integer, :required, "Rule ID"
+    param :form, :rule, :string, :required, "Rule object containing params"
+    param :form, :active, :string, :optional, "rule[:active]"
+    param :form, :notifies, :string, :optional, "rule[:notifies]"
+    param :form, :account_id, :string, :optional, "account_attributes[:account_id]"
+    response :ok, "Success", :Rule
+    response :unprocessable_entity, "Unprocessable Entity"
+    response :forbidden, "You can't access this manager"
   end
 
   # PATCH/PUT /rules/1

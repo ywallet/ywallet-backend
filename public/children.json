@@ -1,0 +1,264 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "/",
+  "resourcePath": "children",
+  "apis": [
+    {
+      "path": "children.json",
+      "operations": [
+        {
+          "summary": "Fetches the information of a single children account",
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "Child",
+              "message": "Success"
+            },
+            {
+              "code": 403,
+              "responseModel": null,
+              "message": "You don't have permission"
+            }
+          ],
+          "method": "get",
+          "nickname": "Children#index"
+        }
+      ]
+    },
+    {
+      "path": "children.json",
+      "operations": [
+        {
+          "summary": "Create a Children Account",
+          "responseMessages": [
+            {
+              "code": 201,
+              "responseModel": "Child",
+              "message": "Created"
+            },
+            {
+              "code": 403,
+              "responseModel": null,
+              "message": "You can't create children"
+            },
+            {
+              "code": 422,
+              "responseModel": null,
+              "message": "Unprocessable Entity"
+            },
+            {
+              "code": 422,
+              "responseModel": null,
+              "message": "Couldn't create a wallet for the child"
+            }
+          ],
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "manager_id",
+              "type": "integer",
+              "description": "Manager ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "account_attributes",
+              "type": "string",
+              "description": "Child object containing params",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "name",
+              "type": "string",
+              "description": "account_attributes[:name]",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "nickname",
+              "type": "string",
+              "description": "account_attributes[:nickname]",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "email",
+              "type": "string",
+              "description": "account_attributes[:email]",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "birthday",
+              "type": "string",
+              "description": "account_attributes[:birthday]",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "phone",
+              "type": "string",
+              "description": "account_attributes[:phone]",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "address",
+              "type": "string",
+              "description": "account_attributes[:address]",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "password",
+              "type": "string",
+              "description": "account_attributes[:password]",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "password_confirmation",
+              "type": "string",
+              "description": "account_attributes[:password_confirmation]",
+              "required": true
+            }
+          ],
+          "method": "post",
+          "nickname": "Children#create"
+        }
+      ]
+    },
+    {
+      "path": "children/{id}.json",
+      "operations": [
+        {
+          "summary": "Fetches the information of a single children account",
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "Child",
+              "message": "Success"
+            },
+            {
+              "code": 403,
+              "responseModel": null,
+              "message": "You can't access this child"
+            }
+          ],
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Children ID",
+              "required": true
+            }
+          ],
+          "method": "get",
+          "nickname": "Children#show"
+        }
+      ]
+    },
+    {
+      "path": "children/{id}.json",
+      "operations": [
+        {
+          "summary": "Update information on a Child Account",
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "Child",
+              "message": "Success"
+            },
+            {
+              "code": 403,
+              "responseModel": null,
+              "message": "You can't access this child"
+            },
+            {
+              "code": 422,
+              "responseModel": null,
+              "message": "Unprocessable Entity"
+            }
+          ],
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Child ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "account_attributes",
+              "type": "string",
+              "description": "Child object containing params",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "name",
+              "type": "string",
+              "description": "account_attributes[:name]",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "nickname",
+              "type": "string",
+              "description": "account_attributes[:nickname]",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "email",
+              "type": "string",
+              "description": "account_attributes[:email]",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "birthday",
+              "type": "string",
+              "description": "account_attributes[:birthday]",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "phone",
+              "type": "string",
+              "description": "account_attributes[:phone]",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "address",
+              "type": "string",
+              "description": "account_attributes[:address]",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "password",
+              "type": "string",
+              "description": "account_attributes[:password]",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "password_confirmation",
+              "type": "string",
+              "description": "account_attributes[:password_confirmation]",
+              "required": false
+            }
+          ],
+          "method": "patch",
+          "nickname": "Children#update"
+        }
+      ]
+    }
+  ]
+}

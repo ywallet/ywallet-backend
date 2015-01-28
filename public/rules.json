@@ -1,0 +1,160 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "/",
+  "resourcePath": "rules",
+  "apis": [
+    {
+      "path": "rules.json",
+      "operations": [
+        {
+          "summary": "Create a single Rule",
+          "responseMessages": [
+            {
+              "code": 201,
+              "responseModel": "Rule",
+              "message": "Created"
+            },
+            {
+              "code": 403,
+              "responseModel": null,
+              "message": "You can't create a rule for this wallet."
+            },
+            {
+              "code": 422,
+              "responseModel": null,
+              "message": "Unprocessable Entity"
+            }
+          ],
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "rule",
+              "type": "string",
+              "description": "Rule object containing params",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "active",
+              "type": "string",
+              "description": "rule[:active]",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "notifies",
+              "type": "string",
+              "description": "rule[:notifies]",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "account_id",
+              "type": "integer",
+              "description": "rule[:account_id]",
+              "required": true
+            }
+          ],
+          "method": "post",
+          "nickname": "Rules#create"
+        }
+      ]
+    },
+    {
+      "path": "rules/{id}.json",
+      "operations": [
+        {
+          "summary": "Fetches a single rule",
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "Rule",
+              "message": "Success"
+            },
+            {
+              "code": 403,
+              "responseModel": null,
+              "message": "You can't access this rule"
+            }
+          ],
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Rule ID",
+              "required": true
+            }
+          ],
+          "method": "get",
+          "nickname": "Rules#show"
+        }
+      ]
+    },
+    {
+      "path": "rules/{id}.json",
+      "operations": [
+        {
+          "summary": "Update information on a Rule",
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "Rule",
+              "message": "Success"
+            },
+            {
+              "code": 403,
+              "responseModel": null,
+              "message": "You can't access this manager"
+            },
+            {
+              "code": 422,
+              "responseModel": null,
+              "message": "Unprocessable Entity"
+            }
+          ],
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Rule ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "rule",
+              "type": "string",
+              "description": "Rule object containing params",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "active",
+              "type": "string",
+              "description": "rule[:active]",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "notifies",
+              "type": "string",
+              "description": "rule[:notifies]",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "account_id",
+              "type": "string",
+              "description": "account_attributes[:account_id]",
+              "required": false
+            }
+          ],
+          "method": "patch",
+          "nickname": "Rules#update"
+        }
+      ]
+    }
+  ]
+}

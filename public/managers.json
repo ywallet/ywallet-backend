@@ -1,0 +1,247 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "/",
+  "resourcePath": "managers",
+  "apis": [
+    {
+      "path": "managers.json",
+      "operations": [
+        {
+          "summary": "Fetches the information of a single manager account",
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "Manager",
+              "message": "Success"
+            },
+            {
+              "code": 403,
+              "responseModel": null,
+              "message": "You don't have permission"
+            }
+          ],
+          "method": "get",
+          "nickname": "Managers#index"
+        }
+      ]
+    },
+    {
+      "path": "managers.json",
+      "operations": [
+        {
+          "summary": "Create a manager account",
+          "responseMessages": [
+            {
+              "code": 201,
+              "responseModel": "Child",
+              "message": "Created"
+            },
+            {
+              "code": 422,
+              "responseModel": null,
+              "message": "Unprocessable Entity"
+            }
+          ],
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "account_attributes",
+              "type": "string",
+              "description": "Manager object containing params",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "name",
+              "type": "string",
+              "description": "account_attributes[:name]",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "nickname",
+              "type": "string",
+              "description": "account_attributes[:nickname]",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "email",
+              "type": "string",
+              "description": "account_attributes[:email]",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "birthday",
+              "type": "string",
+              "description": "account_attributes[:birthday]",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "phone",
+              "type": "string",
+              "description": "account_attributes[:phone]",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "address",
+              "type": "string",
+              "description": "account_attributes[:address]",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "password",
+              "type": "string",
+              "description": "account_attributes[:password]",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "password_confirmation",
+              "type": "string",
+              "description": "account_attributes[:password_confirmation]",
+              "required": true
+            }
+          ],
+          "method": "post",
+          "nickname": "Managers#create"
+        }
+      ]
+    },
+    {
+      "path": "managers/{id}.json",
+      "operations": [
+        {
+          "summary": "Fetches the information of a single manager account",
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "Manager",
+              "message": "Success"
+            },
+            {
+              "code": 403,
+              "responseModel": null,
+              "message": "You can't access this manager"
+            }
+          ],
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Manager ID",
+              "required": true
+            }
+          ],
+          "method": "get",
+          "nickname": "Managers#show"
+        }
+      ]
+    },
+    {
+      "path": "managers/{id}.json",
+      "operations": [
+        {
+          "summary": "Update information on a Manager Account",
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "Child",
+              "message": "Success"
+            },
+            {
+              "code": 403,
+              "responseModel": null,
+              "message": "You can't access this manager"
+            },
+            {
+              "code": 422,
+              "responseModel": null,
+              "message": "Unprocessable Entity"
+            }
+          ],
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Manager ID",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "account_attributes",
+              "type": "string",
+              "description": "Child object containing params",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "name",
+              "type": "string",
+              "description": "account_attributes[:name]",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "nickname",
+              "type": "string",
+              "description": "account_attributes[:nickname]",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "email",
+              "type": "string",
+              "description": "account_attributes[:email]",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "birthday",
+              "type": "string",
+              "description": "account_attributes[:birthday]",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "phone",
+              "type": "string",
+              "description": "account_attributes[:phone]",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "address",
+              "type": "string",
+              "description": "account_attributes[:address]",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "password",
+              "type": "string",
+              "description": "account_attributes[:password]",
+              "required": false
+            },
+            {
+              "paramType": "form",
+              "name": "password_confirmation",
+              "type": "string",
+              "description": "account_attributes[:password_confirmation]",
+              "required": false
+            }
+          ],
+          "method": "patch",
+          "nickname": "Managers#update"
+        }
+      ]
+    }
+  ]
+}

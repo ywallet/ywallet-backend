@@ -2,6 +2,14 @@ class ManagersController < ApplicationController
 
   authorize_resource
 
+  swagger_controller :managers, "Managers Account Management"
+
+  swagger_api :index do
+    summary "Fetches the information of a single manager account"
+    response :ok, "Success", :Manager
+    response :forbidden, "You don't have permission"
+  end
+
   # GET /managers
   def index
     cur_acc = current_account
@@ -10,6 +18,13 @@ class ManagersController < ApplicationController
     else
       render json: { errors: "You don't have permission" }, status: 403
     end
+  end
+
+  swagger_api :show do
+    summary "Fetches the information of a single manager account"
+    param :path, :id, :integer, :required, "Manager ID"
+    response :ok, "Success", :Manager
+    response :forbidden, "You can't access this manager"
   end
 
   # GET /managers/1
@@ -22,6 +37,21 @@ class ManagersController < ApplicationController
     end
   end
 
+  swagger_api :create do
+    summary "Create a manager account"
+    param :form, :account_attributes, :string, :required, "Manager object containing params"
+    param :form, :name, :string, :optional, "account_attributes[:name]"
+    param :form, :nickname, :string, :optional, "account_attributes[:nickname]"
+    param :form, :email, :string, :required, "account_attributes[:email]"
+    param :form, :birthday, :string, :optional, "account_attributes[:birthday]"
+    param :form, :phone, :string, :optional, "account_attributes[:phone]"
+    param :form, :address, :string, :optional, "account_attributes[:address]"
+    param :form, :password, :string, :required, "account_attributes[:password]"
+    param :form, :password_confirmation, :string, :required, "account_attributes[:password_confirmation]"
+    response :created, "Created", :Child
+    response :unprocessable_entity, "Unprocessable Entity"
+  end
+
   # POST /managers
   def create
     manager = Manager.create(manager_params)
@@ -31,6 +61,23 @@ class ManagersController < ApplicationController
     else
       render json: { errors: manager.errors.full_messages }.to_json, status: 422
     end
+  end
+
+  swagger_api :update do
+    summary "Update information on a Manager Account"
+    param :path, :id, :integer, :required, "Manager ID"
+    param :form, :account_attributes, :string, :required, "Child object containing params"
+    param :form, :name, :string, :optional, "account_attributes[:name]"
+    param :form, :nickname, :string, :optional, "account_attributes[:nickname]"
+    param :form, :email, :string, :optional, "account_attributes[:email]"
+    param :form, :birthday, :string, :optional, "account_attributes[:birthday]"
+    param :form, :phone, :string, :optional, "account_attributes[:phone]"
+    param :form, :address, :string, :optional, "account_attributes[:address]"
+    param :form, :password, :string, :optional, "account_attributes[:password]"
+    param :form, :password_confirmation, :string, :optional, "account_attributes[:password_confirmation]"
+    response :ok, "Success", :Child
+    response :unprocessable_entity, "Unprocessable Entity"
+    response :forbidden, "You can't access this manager"
   end
 
   # PATCH/PUT /managers/1

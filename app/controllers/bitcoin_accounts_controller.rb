@@ -4,9 +4,25 @@ class BitcoinAccountsController < ApplicationController
 
   authorize_resource
 
+  swagger_controller :bitcoin_account, "Bitcoin Account Management"
+
+  swagger_api :show do
+    summary "Fetches a single bitcoin account"
+    param :path, :id, :integer, :required, "Bitcoin Account ID"
+    response :ok, "Success", :BitcoinAccount 
+  end
+
   def show
     bitcoin_account = set_bitcoin_account
     render json: bitcoin_account
+  end
+
+  swagger_api :create do
+    summary "Create a single Bitcoin Account"
+    param :form, :authentication_code, :string, :required, "Authentication code"
+    response :ok, "Success"
+    response :unprocessable_entity, "Could not create the access token"
+    response :forbidden, "Permission denied"
   end
 
   def create
@@ -33,6 +49,12 @@ class BitcoinAccountsController < ApplicationController
     end
   end
 
+  swagger_api :destroy do
+    summary "Delete a single Bitcoin Account"
+    param :path, :id, :integer, :required, "Bitcoin Account ID"
+    response :forbidden, "Permission denied"
+  end
+
   def destroy
     bitcoin_account = set_bitcoin_account
     if can? :destroy, bitcoin_account
@@ -41,6 +63,13 @@ class BitcoinAccountsController < ApplicationController
     else
       render json: { errors: "Permission denied" }, status: 403
     end
+  end
+
+  swagger_api :transactions do
+    summary "Fetches all transactions of a single bitcoin account"
+    param :query, :period, :string, :optional, "Transactions Period" 
+    response :ok, "Success"
+    response :forbidden, "Permission denied"
   end
 
   # GET /transactions
@@ -59,6 +88,14 @@ class BitcoinAccountsController < ApplicationController
     end
   end
 
+  swagger_api :payment do
+    summary "Payment"
+    param_list :form, :payment, :string, :required, "Payment Info", [ "to", "amount", "notes"]
+    response :ok, "Success", :Transactions
+    response :internal_server_error, "Couldn't send money"
+    response :forbidden, "Permission denied"
+  end
+
   # POST /payments
   def payment
     account = current_account
@@ -75,6 +112,7 @@ class BitcoinAccountsController < ApplicationController
         render json: r.transaction, serializer: TransactionSerializer
       else
         render json: { errors: "Couldn't send money" }, status: 500
+      end
     else
       render json: { errors: "Permission denied" }, status: 403
     end

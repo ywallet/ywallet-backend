@@ -1,0 +1,124 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "/",
+  "resourcePath": "savings",
+  "apis": [
+    {
+      "path": "savings.json",
+      "operations": [
+        {
+          "summary": "Fetches all savings from a child account",
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "Saving",
+              "message": "Success"
+            }
+          ],
+          "method": "get",
+          "nickname": "Savings#index"
+        }
+      ]
+    },
+    {
+      "path": "savings.json",
+      "operations": [
+        {
+          "summary": "Create a saving",
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "Saving",
+              "message": "Success"
+            }
+          ],
+          "parameters": [
+            {
+              "paramType": "form",
+              "name": "saving",
+              "type": "string",
+              "description": "Saving object containing params",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "finish_date",
+              "type": "string",
+              "description": "saving[:finish_date]",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "value",
+              "type": "string",
+              "description": "rule[:value]",
+              "required": true
+            },
+            {
+              "paramType": "form",
+              "name": "child_id",
+              "type": "integer",
+              "description": "rule[:child_id]",
+              "required": true
+            }
+          ],
+          "method": "post",
+          "nickname": "Savings#create"
+        }
+      ]
+    },
+    {
+      "path": "savings/{id}.json",
+      "operations": [
+        {
+          "summary": "Fetches all savings from a child account",
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": "Saving",
+              "message": "Success"
+            }
+          ],
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Child ID",
+              "required": true
+            }
+          ],
+          "method": "get",
+          "nickname": "Savings#show"
+        }
+      ]
+    },
+    {
+      "path": "savings/{id}.json",
+      "operations": [
+        {
+          "summary": "Delete a saving",
+          "responseMessages": [
+            {
+              "code": 200,
+              "responseModel": null,
+              "message": "Sucess"
+            }
+          ],
+          "parameters": [
+            {
+              "paramType": "path",
+              "name": "id",
+              "type": "integer",
+              "description": "Child ID",
+              "required": true
+            }
+          ],
+          "method": "delete",
+          "nickname": "Savings#destroy"
+        }
+      ]
+    }
+  ]
+}

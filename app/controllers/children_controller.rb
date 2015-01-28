@@ -2,6 +2,15 @@ class ChildrenController < ApplicationController
 
   authorize_resource
 
+  swagger_controller :children, "Children Account Management"
+
+
+  swagger_api :index do 
+    summary "Fetches the information of a single children account"
+    response :ok, "Success", :Child
+    response :forbidden, "You don't have permission"
+  end
+
   # GET /children
   def index
     cur_acc = current_account
@@ -12,6 +21,13 @@ class ChildrenController < ApplicationController
     end
   end
 
+  swagger_api :show do
+    summary "Fetches the information of a single children account"
+    param :path, :id, :integer, :required, "Children ID"
+    response :ok, "Success", :Child
+    response :forbidden, "You can't access this child"
+  end
+
   # GET /children/1
   def show
     child = Child.find(params[:id])
@@ -20,6 +36,24 @@ class ChildrenController < ApplicationController
     else
       render json: { errors: "You can't access this child" }, status: 403
     end
+  end
+
+  swagger_api :create do
+    summary "Create a Children Account"
+    param :form, :manager_id, :integer, :required, "Manager ID"
+    param :form, :account_attributes, :string, :required, "Child object containing params"
+    param :form, :name, :string, :optional, "account_attributes[:name]"
+    param :form, :nickname, :string, :optional, "account_attributes[:nickname]"
+    param :form, :email, :string, :required, "account_attributes[:email]"
+    param :form, :birthday, :string, :optional, "account_attributes[:birthday]"
+    param :form, :phone, :string, :optional, "account_attributes[:phone]"
+    param :form, :address, :string, :optional, "account_attributes[:address]"
+    param :form, :password, :string, :required, "account_attributes[:password]"
+    param :form, :password_confirmation, :string, :required, "account_attributes[:password_confirmation]"
+    response :created, "Created", :Child
+    response :unprocessable_entity, "Unprocessable Entity"
+    response :unprocessable_entity, "Couldn't create a wallet for the child" 
+    response :forbidden, "You can't create children"
   end
 
   # POST /children
@@ -45,6 +79,23 @@ class ChildrenController < ApplicationController
     else
       render json: { errors: "You can't create children" }, status: 403
     end
+  end
+
+  swagger_api :update do
+    summary "Update information on a Child Account"
+    param :path, :id, :integer, :required, "Child ID"
+    param :form, :account_attributes, :string, :required, "Child object containing params"
+    param :form, :name, :string, :optional, "account_attributes[:name]"
+    param :form, :nickname, :string, :optional, "account_attributes[:nickname]"
+    param :form, :email, :string, :optional, "account_attributes[:email]"
+    param :form, :birthday, :string, :optional, "account_attributes[:birthday]"
+    param :form, :phone, :string, :optional, "account_attributes[:phone]"
+    param :form, :address, :string, :optional, "account_attributes[:address]"
+    param :form, :password, :string, :optional, "account_attributes[:password]"
+    param :form, :password_confirmation, :string, :optional, "account_attributes[:password_confirmation]"
+    response :ok, "Success", :Child
+    response :unprocessable_entity, "Unprocessable Entity"
+    response :forbidden, "You can't access this child"
   end
 
   # PATCH/PUT /children/1
