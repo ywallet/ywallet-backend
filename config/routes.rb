@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   
 
+  resources :savings
+
   defaults format: :json do
     constraints format: :json do
       resources :rules

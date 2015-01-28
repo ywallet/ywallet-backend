@@ -53,6 +53,7 @@ puts "2. children"
 puts "3. rules"
 puts "4. wallets"
 puts "5. bitcoin account"
+puts "6. savings"
 opcao = gets.chomp
 
 recurso = "managers" if opcao.to_i == 1
@@ -60,6 +61,7 @@ recurso = "children" if opcao.to_i == 2
 recurso = "rules" if opcao.to_i == 3
 recurso = "wallets" if opcao.to_i == 4
 recurso = "bitcoin_accounts" if opcao.to_i == 5
+recurso = "savings" if opcao.to_i == 6
 
 
 puts "metodo?"
@@ -67,12 +69,14 @@ puts "1. create"
 puts "2. update"
 puts "3. read"
 puts "4. delete"
+puts "5. list all"
 opcao = gets.chomp
 
 metodo = "POST" if opcao.to_i == 1
 metodo = "PUT" if opcao.to_i == 2
 metodo = "GET" if opcao.to_i == 3
 metodo = "DELETE" if opcao.to_i == 4
+metodo = "GET" if opcao.to_i == 5
 
 id = ""
 if opcao.to_i.between?(2,4)
