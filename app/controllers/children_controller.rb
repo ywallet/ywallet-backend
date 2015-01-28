@@ -28,6 +28,7 @@ class ChildrenController < ApplicationController
       name = child_params[:account_attributes][:name]
       if name == nil
         name = "random"
+      end
 
       wallet_id = current_account.bitcoin_account.create_wallet(name)
       if wallet_id

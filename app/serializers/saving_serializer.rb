@@ -7,6 +7,6 @@ class SavingSerializer < ActiveModel::Serializer
   end
 
   def amount_left
-  	object.days_left
+  	object.amount_left
   end
 end

@@ -19,7 +19,7 @@ class BitcoinAccount < ActiveRecord::Base
 		coinbase = init
 		wallet_response = coinbase.post("/accounts", :account => { :name => name }).to_hash
 		refresh! coinbase.oauth_token
-		wallet_response[:account][:id]
+		wallet_response["account"]["id"]
 	end
 
 	def balance
