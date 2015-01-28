@@ -14,6 +14,10 @@ Rails.application.routes.draw do
       resources :managers
 
       resources :bitcoin_accounts
+
+      get "/transactions", to: "bitcoin_accounts#transactions"
+
+      post "/payments", to: "bitcoin_accounts#payment"
       
     end
   end
