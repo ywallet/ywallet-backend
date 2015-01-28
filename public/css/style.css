@@ -21,6 +21,10 @@ a.navy-link {
   color: #1ab394;
   text-decoration: none;
 }
+a.grey-link {
+  color: #676a6c;
+  text-decoration: none;
+}
 a.navy-link:hover {
   color: #17a185;
 }
