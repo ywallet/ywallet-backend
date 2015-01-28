@@ -1,0 +1,20 @@
+<ion-view title="{{ 'settings' | translate}}">
+    <ion-content class="has-header" padding="true">
+        <h3 class="text-center">{{ 'settings' | translate }}</h3>
+        <p class="text-center">Here you can manage your associated children.</p>
+        <ion-list option-buttons="itemButtons" can-swipe="true">
+            <ion-item class="item item-icon-right" ng-repeat="child in children">
+                <div class="row">
+                    <div class="col">
+                        <h2 class="text-center">A</h2>
+                    </div>
+                    <div class="col">
+                        <p>{{child.name}}</p>
+                    </div>
+                </div>
+                <ion-option-button class="button-dark" style="background: red;" ng-click="rmChild($index)">Remove</ion-option-button>
+            </ion-item>	
+        </ion-list>
+        <a class="button button-block button-assertive" ui-sref="yapp.childrenSettings.newChild">Add Child</a>
+    </ion-content>
+</ion-view>

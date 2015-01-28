@@ -1,0 +1,78 @@
+<ion-side-menus>
+  <ion-side-menu-content class="smenucontent">
+    <ion-nav-bar class="bar-stable nav-title-slide-ios7">
+      <ion-nav-back-button class="button-clear"><i class="icon ion-ios7-arrow-back"></i></ion-nav-back-button>
+    </ion-nav-bar>
+    <ion-nav-buttons side="left">
+      <button menu-toggle="left" class="button icon ion-navicon button-assertive menu-button"></button>
+    </ion-nav-buttons>
+    <ion-nav-view name="menuContent" animation="slide-left-right"></ion-nav-view>
+    <ion-nav-buttons side="right">
+      <div class="fixed-right" style="text-align: right;" ng-controller="Popover">
+        <a ng-click="popover.show($event)" class="navbar-top-links">
+          <i class="fa fa-bell enlarged"></i>  
+          <span class="count-info badge badge-assertive squared" ng-if="numNewNotifications > 0">{{numNewNotifications}}</span>
+        </a>
+      </div>
+    </ion-nav-buttons>
+  </ion-side-menu-content>
+
+  <ion-side-menu side="left" expose-aside-when="large" width="221">
+    <header class="positive">
+      <div>
+        <img class="img-circle" src="img/profile_small.jpg"/>
+        <a>
+          <span>
+            <span class="block">
+              <strong class="font-bold">David Williams</strong>
+            </span>
+            <span class="text-muted text-xs block" style="color: #8095a8">dwilliams@gmail.com <i class="fa fa-caret-down"></i></span>
+          </span>
+        </a>
+      </div>
+    </header>
+    <ion-content ng-controller="Sidemenu" class="has-header has-bottom">
+      <ion-list>
+        <ion-item ng-class="{actual: isItemActive('dashboard')}" class="item menu-close nav-clear item-icon-left item-positive" ui-sref="yapp.dashboard">
+            <i class="icon fa fa-area-chart"></i>
+            <span class="sidemenu-label">{{ 'dashboard' | translate}}</span>   
+        </ion-item>
+        <ion-item ng-class="{actual: isItemActive('account')}" class="item menu-close nav-clear item-icon-left item-positive" ui-sref="yapp.account">
+            <i class="icon fa fa-bank"></i>
+            <span class="sidemenu-label">{{ 'account' | translate}}</span>  
+            <span class="digest badge badge-energized squared">€68,13</span>
+        </ion-item>
+        <ion-item ng-class="{actual: isItemActive('allowances')}" class="item menu-close nav-clear item-icon-left item-positive" ui-sref="yapp.allowances">
+            <i class="icon fa fa-money"></i>
+            <span class="sidemenu-label">{{ 'allowances' | translate}}</span> 
+        </ion-item>
+        <ion-item ng-class="{actual: isItemActive('payments')}" class="item menu-close nav-clear item-icon-left item-positive" ui-sref="yapp.payments">
+            <i class="icon fa fa-send-o"></i>
+            <span class="sidemenu-label">{{ 'payments' | translate}}</span>   
+        </ion-item>
+        <ion-item ng-class="{actual: isItemActive('history')}" class="item menu-close nav-clear item-icon-left item-positive" ui-sref="yapp.history">
+            <i class="icon fa fa-tasks"></i>
+            <span class="sidemenu-label">{{ 'history' | translate}}</span>  
+        </ion-item>
+        <ion-item ng-class="{actual: isItemActive('notifications')}" class="item menu-close nav-clear item-icon-left item-positive" ui-sref="yapp.notifications">
+            <i class="icon fa fa-bell-o"></i>
+            <span class="sidemenu-label">{{ 'notifications' | translate}}</span> 
+        </ion-item>
+        <ion-item ng-class="{actual: isItemActive('savings')}" class="item menu-close nav-clear item-icon-left item-positive" ui-sref="yapp.savings">
+            <i class="icon fa fa-database"></i> 
+            <span class="sidemenu-label">{{ 'savings' | translate}}</span>
+        </ion-item>
+      </ion-list>
+    </ion-content>
+    <div class="fixed-outside" ng-controller="Sidemenu">
+      <ion-content scroll="false">
+       <div class="list paddingless">
+        <ion-item ng-class="{actual: isItemActive('settings')}" class="item menu-close nav-clear item-icon-left item-positive" ui-sref="yapp.settings">
+          <i class="icon fa fa-cog"></i>                 
+          <span class="sidemenu-label" >{{ 'settings' | translate}}</span> 
+        </ion-item>
+      </div>
+    </ion-content>
+   </div>
+  </ion-side-menu>
+</ion-side-menus>

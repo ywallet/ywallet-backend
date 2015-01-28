@@ -1,0 +1,24 @@
+<ion-view title="{{ 'notifications' | translate }}">
+	<ion-content class="has-header">
+		<div class="bar bar-header item-input-inset">
+			<label class="item-input-wrapper">
+				<i class="icon ion-ios7-search placeholder-icon"></i>
+				<input type="search" placeholder="Search" ng-model="searchText">
+			</label>
+		</div>	
+		<ion-list option-buttons="itemButtons" can-swipe="true">
+		    <ion-item class="item item-icon-right" ng-repeat="notif in notifications | filter: searchText">
+		    	<div class="row">
+					<div class="col"><h2>{{notif.title}}</h2></div>
+				</div>
+
+		    	<div class="row">
+					<div class="col"><p>{{notif.description}}</p></div>
+					<div class="col-20"><h5 class="positive">{{notif.timestamp | date: 'HH:mm'}}<br/>{{notif.timestamp | date: 'dd/MM/yyyy'}}</h5></div>
+				</div>
+
+      		    <ion-option-button class="button-dark" style="background: red;" ng-click="rmNotification($index)">Eliminar</ion-option-button>
+			</ion-item>	
+		</ion-list>	
+	</ion-content>
+</ion-view>
