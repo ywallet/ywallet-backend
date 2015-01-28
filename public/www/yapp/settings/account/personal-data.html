@@ -1,0 +1,33 @@
+<ion-view title="{{ 'settings' | translate}}">
+    <ion-content class="has-header" padding="true">
+        <h3 class="text-center">{{ 'settings' | translate }}</h3>
+        <form name="personalForm" ng-submit="changeData()" novalidate>
+            <div class="list">
+                <div class="item item-input item-stacked-label">
+                    <label class="input-label">First Name:</label>
+                    <!-- <input type="text" name="firstName" ng-model="personalData.name" required ng-maxlength="32"> -->
+                    <input type="text" name="firstName" ng-model="personalData.name" ng-maxlength="32">
+                    <!-- <span class="assertive item-text-wrap" ng-show="personalForm.firstName.$error.required && personalForm.firstName.$dirty">
+                        This is required.
+                    </span> -->
+                    <span class="assertive item-text-wrap" ng-show="personalForm.firstName.$error.maxlength">
+                        A name can't exceed 32 characters. Sorry!
+                    </span>
+                </div>
+                <div class="item item-input item-stacked-label">
+                    <label class="input-label">Your E-mail:</label>
+                    <!-- <input type="email" name="userEmail" ng-model="personalData.email" required> -->
+                    <input type="email" name="userEmail" ng-model="personalData.email">
+                    <!-- <span class="assertive item-text-wrap" ng-show="personalForm.userEmail.$error.required && personalForm.userEmail.$dirty">
+                        This is required.
+                    </span> -->
+                    <span class="assertive item-text-wrap" ng-show="!personalForm.userEmail.$error.required && personalForm.userEmail.$dirty && personalForm.userEmail.$error.email">
+                        That isn't a valid e-mail.
+                    </span>
+                </div>
+            </div>
+            <button type="submit" class="button button-block button-assertive" ng-disabled="personalForm.$invalid">Submit New Data</button>
+        </form>
+        <!-- <a class="button button-block button-clear" ui-sref="authentication.terms">Terms and Conditions</a> -->
+    </ion-content>
+</ion-view>

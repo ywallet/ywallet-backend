@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <!-- compiled css output -->
+    <link href="css/ionic.app.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="lib/angular-translate/angular-translate.js"></script>
+    <script src="lib/angular-cache/dist/angular-cache.min.js"></script>
+    <script src="lib/angular-cookies/angular-cookies.min.js"></script>
+    <script src="lib/angular-cookie/angular-cookie.min.js"></script>
+    <script src="lib/ng-token-auth/dist/ng-token-auth.min.js"></script>
+
+    <!-- ngCordova -->
+    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
+
+    <!-- translations -->
+    <script src="l10n/en.js"></script>
+    <script src="l10n/pt.js"></script>
+    <script src="l10n/es.js"></script>
+    <script src="l10n/fr.js"></script>
+    <script src="l10n/it.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- Services -->
+    <script src="yapp/services/services.module.js"></script>
+    <script src="yapp/services/user.ds.js"></script>
+    <script src="yapp/services/notifications.ds.js"></script>
+    <script src="yapp/services/savings.ds.js"></script>
+    <script src="yapp/services/state-router.js"></script>
+
+    <!-- Main Module -->
+    <script src="yapp/yapp.module.js"></script>
+    <script src="yapp/yapp.config.run.js"></script>
+    <script src="yapp/yapp.config.translate.js"></script>
+    <script src="yapp/yapp.config.route.js"></script>
+    <script src="yapp/yapp.config.auth.js"></script>
+    
+    <script src="yapp/preloader/preloader.js"></script>
+
+    <!-- Layout -->
+    <script src="yapp/layout/layout.module.js"></script>
+    <script src="yapp/layout/config.route.js"></script>
+    <script src="yapp/layout/sidemenu.js"></script>
+    <script src="yapp/layout/popover.js"></script>
+
+    <!-- Authentication -->
+    <script src="yapp/authentication/authentication.module.js"></script>
+    <script src="yapp/authentication/config.route.js"></script>
+    <script src="yapp/authentication/authenticator.js"></script>
+    <script src="yapp/authentication/signin.js"></script>
+    <script src="yapp/authentication/register.js"></script>
+    <script src="yapp/authentication/confirm-password.js"></script>
+    <script src="yapp/authentication/forgot-password.js"></script>
+    <script src="yapp/authentication/signout.js"></script>
+
+    <!-- Allownaces -->
+    <script src="yapp/allowances/allowances.module.js"></script>
+    <script src="yapp/allowances/config.route.js"></script>
+    <script src="yapp/allowances/allowances.js"></script>
+
+    <!-- Dashboard -->
+    <script src="yapp/dashboard/dashboard.module.js"></script>
+    <script src="yapp/dashboard/config.route.js"></script>
+    <script src="yapp/dashboard/dashboard.js"></script>
+
+    <!-- Account -->
+    <script src="yapp/account/account.module.js"></script>
+    <script src="yapp/account/config.route.js"></script>
+    <script src="yapp/account/account.js"></script>      
+
+    <!-- History -->
+    <script src="yapp/history/history.module.js"></script>
+    <script src="yapp/history/config.route.js"></script>
+    <script src="yapp/history/history.js"></script>
+
+    <!-- Notifications -->
+    <script src="yapp/notifications/notifications.module.js"></script>    
+    <script src="yapp/notifications/config.route.js"></script>
+    <script src="yapp/notifications/notifications.js"></script>
+
+    <!-- Payments -->
+    <script src="yapp/payments/payments.module.js"></script>
+    <script src="yapp/payments/config.route.js"></script>
+    <script src="yapp/payments/payments.ds.js"></script>
+    <script src="yapp/payments/payments.js"></script>
+
+    <!-- Savings -->
+    <script src="yapp/savings/savings.module.js"></script>
+    <script src="yapp/savings/config.route.js"></script>
+    <script src="yapp/savings/savings.js"></script>
+
+    <!-- Settings -->
+    <script src="yapp/settings/settings.module.js"></script>
+    <script src="yapp/settings/config.route.js"></script>
+    <script src="yapp/settings/settings.js"></script>    
+    <script src="yapp/settings/account/personal-data.js"></script>
+    <script src="yapp/settings/account/change-password.js"></script>
+    <script src="yapp/settings/children/manage-children.js"></script>
+    <script src="yapp/settings/children/register-child.js"></script>
+
+  </head>
+
+  <body ng-app="yapp">
+    <ion-nav-view></ion-nav-view>
+  </body>
+</html>

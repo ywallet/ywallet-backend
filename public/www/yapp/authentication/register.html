@@ -1,0 +1,46 @@
+<ion-view title="yWallet">
+    <ion-content class="has-header padding">
+        <form name="registerForm" ng-submit="doRegister()" novalidate>
+            <div class="list">
+                <div class="item item-input item-stacked-label">
+                    <label class="input-label">Your E-mail:</label>
+                    <input type="email" name="userEmail" ng-model="registerData.email" required>
+                    <span class="assertive item-text-wrap" ng-show="registerForm.userEmail.$error.required && registerForm.userEmail.$dirty">
+                        This is required.
+                    </span>
+                    <span class="assertive item-text-wrap" ng-show="!registerForm.userEmail.$error.required && registerForm.userEmail.$dirty && registerForm.userEmail.$error.email">
+                        That isn't a valid e-mail.
+                    </span>
+                </div>
+                <div class="item item-input item-stacked-label">
+                    <label class="input-label">Your Password:</label>
+                    <input type="password" name="userPass" ng-model="registerData.password" required ng-minlength="6" ng-maxlength="24">
+                    <span class="assertive item-text-wrap" ng-show="registerForm.userPass.$error.required && registerForm.userPass.$dirty">
+                        This is required.
+                    </span>
+                    <span class="assertive item-text-wrap" ng-show="!registerForm.userPass.$error.required && (registerForm.userPass.$error.minlength || registerForm.userPass.$error.maxlength) && registerForm.userPass.$dirty">
+                        A password must be between 6 and 24 characters long.
+                    </span>
+                </div>
+                <div class="item item-input item-stacked-label">
+                    <label class="input-label">Confirm Password:</label>
+                    <input type="password" name="confPass" ng-model="registerData.cpass" required confirm-password="registerData.password">
+                    <span class="assertive item-text-wrap" ng-show="registerForm.confPass.$error.required && registerForm.confPass.$dirty">
+                        Please, confirm your password.
+                    </span>
+                    <span class="assertive item-text-wrap" ng-show="!registerForm.confPass.$error.required && registerForm.confPass.$error.match && registerForm.confPass.$dirty">
+                        The passwords don't match!
+                    </span>
+                </div>
+                <div class="item item-checkbox item-text-wrap">
+                    <div class="checkbox">
+                        <input type="checkbox" name="userAccepts" ng-model="registerData.agrees" required>
+                    </div>
+                    <label>I read and accept the terms and conditions.</label>
+                </div>
+            </div>
+            <button type="submit" class="button button-block button-balanced" ng-disabled="registerForm.$invalid">Get Started</button>
+        </form>
+        <a class="button button-block button-clear" ui-sref="authentication.terms">Terms and Conditions</a>
+    </ion-content>
+</ion-view>

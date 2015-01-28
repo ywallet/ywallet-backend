@@ -1,0 +1,18 @@
+<ion-view title="{{ 'settings' | translate}}">
+    <ion-content class="has-header" padding="true">
+        <h3>{{ 'language' | translate }}</h3>
+        <div class="button-bar">
+            <button ng-click="changeLanguage('en')" ng-class="curlang=='en' ? 'button button-dark' : 'button'">{{ 'lang_en' | translate }}</button>
+            <button ng-click="changeLanguage('pt')" ng-class="curlang=='pt' ? 'button button-dark' : 'button'">{{ 'lang_pt' | translate }}</button>
+            <button ng-click="changeLanguage('es')" ng-class="curlang=='es' ? 'button button-dark' : 'button'">{{ 'lang_es' | translate }}</button>
+            <!--
+            <button ng-click="changeLanguage('fr')" ng-class="curlang=='fr' ? 'button button-dark' : 'button'">{{ 'lang_fr' | translate }}</button>
+            <button ng-click="changeLanguage('it')" ng-class="curlang=='it' ? 'button button-dark' : 'button'">{{ 'lang_it' | translate }}</button>
+            -->
+        </div>
+        <!-- <a class="button button-block button-assertive" ng-show="isParent" ui-sref="yapp.childrenSettings.index">Children Settings</a> -->
+        <a class="button button-block button-assertive" ui-sref="yapp.childrenSettings.index">Children Settings</a>
+        <a class="button button-block button-assertive" ui-sref="yapp.accountSettings.index">Account Settings</a>
+        <a class="button button-block button-energized" ui-sref="yapp.signout">{{ 'signout' | translate}}</a>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,28 @@
+var translations_it = {
+		account: 'Account',
+		allowances: 'Allowances',
+		dashboard: 'Dashboard',
+		history: 'History',
+		notifications: 'Notifications',
+		payments: 'Payments',
+		savings: 'Savings',
+		settings: 'Settings',
+        signout: 'Sign Out',
+		
+    search: 'Cerca',
+    cancel: 'Annulla',
+    about: 'Info su',
+    home: 'Inizio',
+    books: 'Libri',
+    media: 'Media',
+    places: 'Luoghi',
+    options: 'Opzioni',
+    credits: 'Credits',
+	settings: 'Definições',
+    language: 'Lingua',
+    lang_en: 'inglese',
+    lang_es: 'spagnolo',
+    lang_fr: 'francese',
+    lang_it: 'italiano',
+    lang_pt: 'português'
+};
