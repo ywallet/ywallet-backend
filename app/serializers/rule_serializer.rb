@@ -1,13 +1,5 @@
 class RuleSerializer < ActiveModel::Serializer
-  attributes :id, :active, :notifies, :account_id
-
-	def active
-		object.active
-	end
-
-	def notifies
-		object.notifies
-	end
+  attributes :id, :amount, :period, :active, :notifies, :account_id
 
 	def account_id
 		object.account.id
