@@ -37,7 +37,7 @@ class BitcoinAccountsController < ApplicationController
       bitcoin_account.access_token = token_response.token
       bitcoin_account.refresh_token = token_response.refresh_token
       bitcoin_account.expires_in = token_response.expires_in
-      bitcoin_account.account = current_account
+      current_account.bitcoin_account = bitcoin_account
       bitcoin_account.save
       if bitcoin_account.persisted?
         render json: { message: "OK" }

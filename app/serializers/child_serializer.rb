@@ -34,7 +34,9 @@ class ChildSerializer < ActiveModel::Serializer
 	end
 
 	def balance
-		object.account.bitcoin_account.balance.to_s if (object.account != nil && object.account.bitcoin_account != nil)
+		if (object.account != nil && object.account.bitcoin_account != nil)
+			object.account.bitcoin_account.wallet_balance(object.wallet_id).to_s
+		end
 	end
 
 	#has_one :account

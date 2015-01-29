@@ -1,7 +1,6 @@
 class BitcoinAccount < ActiveRecord::Base
-	belongs_to :account
 
-  validates :account, presence: true
+	has_many :accounts # this is actually a 'belongs_to_many' relation...
 
 	def init
 		user_credentials = {
@@ -25,6 +24,13 @@ class BitcoinAccount < ActiveRecord::Base
 	def balance
 		coinbase = init
 		balance = coinbase.balance
+		refresh! coinbase.oauth_token
+		balance # Money (https://github.com/RubyMoney/money)
+	end
+
+	def wallet_balance wallet_id
+		coinbase = init
+		balance = coinbase.get("/accounts/#{wallet_id}/balance").to_hash
 		refresh! coinbase.oauth_token
 		balance # Money (https://github.com/RubyMoney/money)
 	end

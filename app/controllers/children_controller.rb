@@ -66,9 +66,10 @@ class ChildrenController < ApplicationController
 
       wallet_id = current_account.bitcoin_account.create_wallet(name)
       if wallet_id
-        child = Child.create(child_params.merge(:wallet_id => wallet_id))
+        child = Child.new(child_params.merge(:wallet_id => wallet_id))
+        child.account.bitcoin_account = current_account.bitcoin_account
 
-        if child.persisted?
+        if child.save
           render json: child, status: 201
         else
           render json: { errors: child.errors.full_messages }.to_json, status: 422

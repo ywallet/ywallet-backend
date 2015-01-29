@@ -5,7 +5,7 @@ class Account < ActiveRecord::Base
   belongs_to :manager
   belongs_to :child
 
-  has_one :bitcoin_account
+  belongs_to :bitcoin_account # this is actually a 'has_one' relation...
 
   has_many :rules
 
