@@ -41,21 +41,39 @@ class BitcoinAccount < ActiveRecord::Base
 		refresh! coinbase.oauth_token
 		result.success? # boolean
 	end
+	
 
-	def transactions
+	def transactions wallet_id=nil
 		coinbase = init
-		result = coinbase.transactions
+		options = { :limit => 100 }
+		if wallet_id != nil
+			options = options.merge(:account_id => wallet_id)
+		end
+		result = coinbase.transactions(options)
 		refresh! coinbase.oauth_token
 		result.transactions
 	end
 
-	def week_transactions
+	def day_transactions wallet_id=nil
+		day_transactions = []
+
+		ts = transactions(wallet_id)
+		ts.each do |t|
+			if Date.parse(t.transaction.created_at) > Date.today.at_beginning_of_day
+				day_transactions.push(t.transaction)
+			end
+		end
+
+		day_transactions
+	end
+
+	def week_transactions wallet_id=nil
 		week_transactions = []
 
-		ts = transactions
+		ts = transactions(wallet_id)
 		ts.each do |t|
 			if Date.parse(t.transaction.created_at) > Date.today.at_beginning_of_week
-				week_transactions.push(t)
+				week_transactions.push(t.transaction)
 				#week_transactions.push(t.transaction.id)
 			end
 		end
@@ -63,7 +81,44 @@ class BitcoinAccount < ActiveRecord::Base
 		week_transactions
 	end
 
+	def month_transactions wallet_id=nil
+		month_transactions = []
+
+		ts = transactions(wallet_id)
+		ts.each do |t|
+			if Date.parse(t.transaction.created_at) > Date.today.at_beginning_of_month
+				month_transactions.push(t.transaction)
+			end
+		end
+
+		month_transactions
+	end
+
+
+	def day_expenses wallet_id=nil
+		calc_expenses_of(day_transactions(wallet_id))
+	end
+
+	def week_expenses wallet_id=nil
+		calc_expenses_of(week_transactions(wallet_id))
+	end
+
+	def month_expenses wallet_id=nil
+		calc_expenses_of(month_transactions(wallet_id))
+	end
+
+
 	private
+
+		def calc_expenses_of transactions
+			total = 0
+
+			transactions.each do |t|
+				total += t.amount.amount if t.amount.currency == "BTC"
+			end
+
+			total
+		end
 
 		def refresh! oauth_token
 			# access_token = coinbase.credentials[:access_token]
