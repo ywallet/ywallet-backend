@@ -83,5 +83,12 @@ var translations_en = {
 	destination_bitcoin_address: 'Destination bitcoin address',
 	this_is_required: 'This is required',
 	this_is_not_a_valid_bitcoin_address: 'This not a valid bitcoin address',
-	notes: 'Notes'
+	notes: 'Notes',
+	
+	hello: 'Hello',
+	avaliable_amount: 'Avaliable amount',
+	allowance: 'Allowances',
+	next_allowance: 'Next allowance',
+	saved_amount: 'Saved amount',
+	payments_enabled: 'Payments enabled'
 };

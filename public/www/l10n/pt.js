@@ -82,5 +82,12 @@ var translations_pt = {
 	destination_bitcoin_address: 'Endereço de bitcon de destino',
 	this_is_required: 'Campo obrigatório',
 	this_is_not_a_valid_bitcoin_address: 'Endereço de bitcoin inválido',
-	notes: 'Notas'
+	notes: 'Notas',
+	
+	hello: 'Olá',
+	avaliable_amount: 'Montante disponivel',
+	allowance: 'Mesadas',
+	next_allowance: 'Próxima mesada',
+	saved_amount: 'Montanto poupado',
+	payments_enabled: 'Pagamentos activos'
 };

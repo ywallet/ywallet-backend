@@ -8,12 +8,14 @@
     Sidemenu.$inject = ['$scope', '$rootScope', '$location', 'StateRouter'];
 
     function Sidemenu($scope, $rootScope, $location, StateRouter) {
-        $scope.isItemActive = function(path) {
-            return $location.path().indexOf(path) > -1;
-        };
+			$scope.yUser = $rootScope.yUser;
+			$scope.yUser.balance = 123;
+			$scope.isItemActive = function(path) {
+					return $location.path().indexOf(path) > -1;
+			};
 
-        if ($rootScope.yUser == null) {
-            StateRouter.goAndForget("home");
-        }
+			if ($rootScope.yUser == null) {
+					StateRouter.goAndForget("home");
+			}
     }
 })();

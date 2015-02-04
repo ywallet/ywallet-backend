@@ -1,0 +1,20 @@
+[
+	{
+		"id": 1, 
+		"qty": 10.00,
+		"period": "week",
+		"active": "true"
+	},
+	{
+		"id": 2, 
+		"qty": 2.00,
+		"period": "day",
+		"active": "true"
+	},
+	{
+		"id": 3, 
+		"qty": 40.00,
+		"period": "month",
+		"active": "false"
+	}
+]

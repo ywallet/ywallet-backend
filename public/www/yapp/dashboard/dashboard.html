@@ -2,38 +2,38 @@
   <ion-content class="has-header" padding="true">
     <div class="row padding">
         <p style="text-align: center; width: 100%;">
-            Hello, {{yUser.name}}!
+            {{ 'hello' | translate }}, {{yUser.name}}!
         </p>
     </div>
     <div class="list card">
 
       <a href="#" class="item item-icon-left">
         <i class="icon ion-card"></i>
-        Montante disponivel: 
-        <span class="badge">{ { € 120,32  } }</span>
+        {{ 'avaliable_amount' | translate }} 
+        <span class="badge"> {{ avaliable_amount | currency }}</span>
       </a>
         
       <a href="#" class="item item-icon-left">
         <i class="icon ion-cash"></i>
-        Próxima mesada: 
-        <span class="badge">{ { € 20,00 } }</span>
+        {{ 'allowance' | translate }} 
+        <span class="badge"> {{ allowance | currency }} </span>
       </a>
 
       <a href="#" class="item item-icon-left">
         <i class="icon ion-calendar"></i>
-        Próxima mesada: 
-        <span class="badge">{ { 01/01/2015 } }</span>
+        {{ 'next_allowance' | translate }}
+        <span class="badge">{{ next_allowance | date: 'MMM d, y' }}</span>
       </a>
 
       <a href="#" class="item item-icon-left">
         <i class="icon ion-cash"></i>
-        Montante pouplado: 
-        <span class="badge">{ { € 12,32 } }</span>
+        {{ 'saved_amount' | translate }}
+        <span class="badge">{{ saved_amount | currency }}</span>
       </a>
 
       <div class="item item-icon-left">
         <i class="icon ion-cash"></i>
-         Permitir pagamentos
+        {{ 'payments_enabled' | translate }}
          <label class="badge toggle toggle-assertive">
            <input type="checkbox">
            <div class="track">

@@ -10,7 +10,7 @@
 		<div class="card" ng-repeat="save in savings | filter: searchText | orderBy:'deadline':false">
 			<div class="item item-divider item-energized">
 				{{save.title}}
-				<u style="float: right;">{{save.qty | number:2}} €</u>
+				<u style="float: right;">{{save.qty | currency}}</u>
 			</div>
 			<a class="item item-text-wrap item-icon-right">
 				{{save.description}}

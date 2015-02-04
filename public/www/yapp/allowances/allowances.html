@@ -12,7 +12,7 @@
 		    <ion-item class="item item-icon-right" style="border-bottom: 1px solid #1ab394" ng-repeat="allowance in allowances | filter: searchText">
 		    	<div class="row">
 					<div class="col"><h2>{{ 'period' | translate }}: {{allowance.period}}</h2></div>
-					<div class="col"><p>{{ 'money' | translate }}: {{allowance.qty | number:2}} €</p></div>
+					<div class="col"><p>{{ 'money' | translate }}: {{allowance.qty | currency}}</p></div>
 				</div>
 
       		    <ion-option-button class="button-dark" style="background: red;" ng-click="rmAllowance(allowance.id)">{{ 'delete' | translate }}</ion-option-button>

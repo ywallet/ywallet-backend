@@ -15,7 +15,7 @@
 						</h2>
 					</div>		    		
 					<div class="col-33"><h2>{{tran.description}}</h2></div>
-					<div class="col"><h2>{{tran.qty | number:2}} €</h2></div>
+					<div class="col"><h2>{{tran.qty | currency}}</h2></div>
 					<div class="col-10" ng-if="tran.credit == true"><i class="icon large ion-arrow-up-a"></i></div>
 					<div class="col-10" ng-if="tran.credit == false"><i class="icon large ion-arrow-down-a"></i></div>
 				</div>

@@ -24,9 +24,9 @@
         <a>
           <span>
             <span class="block">
-              <strong class="font-bold">David Williams</strong>
+              <strong class="font-bold">{{ yUser.name }}</strong>
             </span>
-            <span class="text-muted text-xs block" style="color: #8095a8">dwilliams@gmail.com <i class="fa fa-caret-down"></i></span>
+            <span class="text-muted text-xs block" style="color: #8095a8">{{ yUser.email }} <i class="fa fa-caret-down"></i></span>
           </span>
         </a>
       </div>
@@ -36,7 +36,7 @@
         <ion-item ng-class="{actual: isItemActive('dashboard')}" class="item menu-close nav-clear item-icon-left item-positive" ui-sref="yapp.dashboard">
             <i class="icon fa fa-area-chart"></i>
             <span class="sidemenu-label">{{ 'dashboard' | translate}}</span>
-            <span class="digest badge badge-energized squared">€68,13</span>  
+            <span class="digest badge badge-energized squared">{{ yUser.balance | currency }}</span>  
         </ion-item>
         <!--<ion-item ng-class="{actual: isItemActive('account')}" class="item menu-close nav-clear item-icon-left item-positive" ui-sref="yapp.account">
             <i class="icon fa fa-bank"></i>
