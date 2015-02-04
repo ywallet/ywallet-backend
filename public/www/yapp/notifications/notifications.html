@@ -7,7 +7,7 @@
 			</label>
 		</div>	
 		<ion-list option-buttons="itemButtons" can-swipe="true">
-		    <ion-item class="item item-icon-right" ng-repeat="notif in notifications | filter: searchText">
+		    <ion-item class="item item-icon-right" style="border-bottom: 1px solid #1ab394" ng-repeat="notif in notifications | filter: searchText">
 		    	<div class="row">
 					<div class="col"><h2>{{notif.title}}</h2></div>
 				</div>

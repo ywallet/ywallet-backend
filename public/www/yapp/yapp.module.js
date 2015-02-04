@@ -32,6 +32,7 @@
         'yapp.notifications',
         'yapp.payments',
         'yapp.savings',
+        'yapp.rules',
         'yapp.settings',
         'yapp.account'
     ]);

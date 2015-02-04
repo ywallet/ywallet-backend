@@ -9,11 +9,10 @@
     function Notifications($scope, DSNotifications)
     {
 
-        DSNotifications.addNotification('type1', 'title1', 'description1');
-        DSNotifications.addNotification('type2', 'title2', 'description2');
-        DSNotifications.addNotification('type3', 'title3', 'description3');
-        DSNotifications.addNotification('type4', 'title4', 'description4');
-        DSNotifications.addNotification('type5', 'title5', 'description5');
+        /*DSNotifications.addNotification('type1', 'Mesada', 'Recebeu o seu pagamento mensal');
+        DSNotifications.addNotification('type2', 'Iphone 6', 'Faltam 5 dias para atingir a poupança');
+        DSNotifications.addNotification('type3', 'Crédito Extra', 'Recebeu um crédito na sua conta');
+        DSNotifications.addNotification('type4', 'Semanada', 'Recebeu o seu pagamento semanal');*/
         
         $scope.rmNotification = function(index) {
             DSNotifications.rmNotification(index);            

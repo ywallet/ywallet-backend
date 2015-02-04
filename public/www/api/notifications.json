@@ -1,7 +1,22 @@
 [
 	{ 
 		"id": 1, 
-		"title": "Mesada Trasnferida para a tua conta",
-		"message": "Nada a acrescentar"
-	}
+		"title": "Mesada",
+		"message": "Recebeu o seu pagamento mensal"
+	},
+	{ 
+		"id": 2, 
+		"title": "Iphone 6",
+		"message": "Faltam 5 dias para atingir a poupança"
+	},
+	{ 
+		"id": 3, 
+		"title": "Crédito Extra",
+		"message": "Recebeu um crédito na sua conta"
+	},
+	{ 
+		"id": 4, 
+		"title": "Semanada",
+		"message": "Recebeu o seu pagamento semanal"
+	}		
 ];      

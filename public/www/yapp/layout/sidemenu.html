@@ -35,13 +35,14 @@
       <ion-list>
         <ion-item ng-class="{actual: isItemActive('dashboard')}" class="item menu-close nav-clear item-icon-left item-positive" ui-sref="yapp.dashboard">
             <i class="icon fa fa-area-chart"></i>
-            <span class="sidemenu-label">{{ 'dashboard' | translate}}</span>   
+            <span class="sidemenu-label">{{ 'dashboard' | translate}}</span>
+            <span class="digest badge badge-energized squared">€68,13</span>  
         </ion-item>
-        <ion-item ng-class="{actual: isItemActive('account')}" class="item menu-close nav-clear item-icon-left item-positive" ui-sref="yapp.account">
+        <!--<ion-item ng-class="{actual: isItemActive('account')}" class="item menu-close nav-clear item-icon-left item-positive" ui-sref="yapp.account">
             <i class="icon fa fa-bank"></i>
             <span class="sidemenu-label">{{ 'account' | translate}}</span>  
             <span class="digest badge badge-energized squared">€68,13</span>
-        </ion-item>
+        </ion-item>-->
         <ion-item ng-class="{actual: isItemActive('allowances')}" class="item menu-close nav-clear item-icon-left item-positive" ui-sref="yapp.allowances">
             <i class="icon fa fa-money"></i>
             <span class="sidemenu-label">{{ 'allowances' | translate}}</span> 
@@ -62,6 +63,10 @@
             <i class="icon fa fa-database"></i> 
             <span class="sidemenu-label">{{ 'savings' | translate}}</span>
         </ion-item>
+        <ion-item ng-class="{actual: isItemActive('rules')}" class="item menu-close nav-clear item-icon-left item-positive" ui-sref="yapp.rules">
+            <i class="icon fa fa-clipboard"></i> 
+            <span class="sidemenu-label">{{ 'rules' | translate}}</span>
+        </ion-item>        
       </ion-list>
     </ion-content>
     <div class="fixed-outside" ng-controller="Sidemenu">

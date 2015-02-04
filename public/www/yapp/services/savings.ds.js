@@ -9,8 +9,8 @@
 	function DSavings($http, $q, $ionicLoading, DSCacheFactory)
 	{
 		var cacheKey = 'Savings';
-		//var hostname = (!window.cordova) ? 'api/' : '/android_asset/www/api/';
-		var hostname = 'http://ywallet.co/';
+		var hostname = (!window.cordova) ? 'api/' : '/android_asset/www/api/';
+		//var hostname = 'http://ywallet.co/';
 
 		var service = {
 			getCacheKey : getCacheKey,
@@ -41,7 +41,7 @@
 				if( !loadCache )
 					$ionicLoading.show({ template: 'Loading...'});
 
-				$http.get(hostname + 'savings')
+				$http.get(hostname + 'savings.json')
 					.success(function(data, status){
 						savingsCache.put(cacheKey, data);
 						deferred.resolve(data);

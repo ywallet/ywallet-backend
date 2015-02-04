@@ -8,6 +8,43 @@
  	Payments.$inject = ['$scope', '$ionicModal', '$cordovaDevice', 'DPayments', '$cordovaBarcodeScanner'];
 	function Payments($scope, $ionicModal, $cordovaDevice, DPayments, $cordovaBarcodeScanner)
 	{
+		$scope.myBitcoinAddress = "1HeN2AfTEwkN9T4jXzmuwDFdcmxZRamhhV";
+		
+		$scope.paymentData = {
+			to: "teste",
+			amount: 1.22323,
+			note: "pagamento de teste"
+		};
+
+		$scope.scanBarcode = function() {
+        $cordovaBarcodeScanner.scan().then(function(imageData) {
+            $scope.paymentData.to = imageData.text;
+            console.log("Barcode text -> " + imageData.text);
+            console.log("Barcode Format -> " + imageData.format);
+            console.log("Cancelled -> " + imageData.cancelled);
+        }, function(error) {
+            console.log("An error happened -> " + error);
+        });
+		};
+		
+		$scope.encodeQr = function () 
+		{
+			$cordovaBarcodeScanner
+				.encode(BarcodeScanner.Encode.TEXT_TYPE, $scope.myBitcoinAddress)
+				.then(function(success) {
+					// Success!
+      	}, function(error) {
+        	// An error occurred
+      });
+
+		};
+		
+		$scope.doPayment = function () 
+		{
+			console.log("post: { payment: paymentData } payments.json");
+			console.log($scope.paymentData);
+		};
+		
 		DPayments.getPayments().then(function(data)
 	 	{
 			$scope.payments = data;

@@ -58,13 +58,10 @@
                 resp.role = "child";
             }
             DSUser.putUser(resp);
-            goToService();
-            /*DSUser.auth = $auth.submitLogin({
+            DSUser.auth = $auth.submitLogin({
                 email: $scope.registerData.email,
                 password: $scope.registerData.password
-            })
-                .then(goToService);*/
-                //.catch(goHome);
+            }).then(goToService, goHomeAndReject);
         }
 
         function onRegisterError(resp) {
@@ -84,39 +81,26 @@
             StateRouter.goAndForget("home");
         }
 
+        function goHomeAndReject() {
+            DSUser.auth = null;
+            StateRouter.goAndForget("home");
+            return $q.reject("error authenticating");
+        }
+
 
         function onServiceSuccess(code) {
             // send code to exchange for token
             $http.post("http://ywallet.co/bitcoin_accounts", {
                 authentication_code: code
             })
-                .success(onTokenSuccess)
-                .error(onTokenError);
+                .success(goHome)
+                .error(goHomeAndReject);
         }
 
         function onServiceError(error) {
-            // normal behaviour:
             console.error(error);
-            // goHome();
-
-            // TODO remove following code, development only
-            onTokenSuccess(null, null, null, null);
-        }
-
-
-        function onTokenSuccess(data, status, headers, config) {
-            DSUser.auth = $auth.submitLogin({
-                email: $scope.registerData.email,
-                password: $scope.registerData.password
-            }).then(goHome, function () {
-                goHome();
-                return $q.reject("error authenticating");
-            });
-        }
-
-        function onTokenError(data, status, headers, config) {
-            console.error("token exchange error", data);
-            StateRouter.goAndForget("authentication.index");
+            $auth.signOut();
+            goHomeAndReject();
         }
     }
 })();

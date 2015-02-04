@@ -9,7 +9,7 @@
 		</div>
 
 		<ion-list option-buttons="itemButtons" can-swipe="true">
-		    <ion-item class="item item-icon-right" ng-repeat="allowance in allowances | filter: searchText">
+		    <ion-item class="item item-icon-right" style="border-bottom: 1px solid #1ab394" ng-repeat="allowance in allowances | filter: searchText">
 		    	<div class="row">
 					<div class="col"><h2>{{ 'period' | translate }}: {{allowance.period}}</h2></div>
 					<div class="col"><p>{{ 'money' | translate }}: {{allowance.qty | number:2}} €</p></div>
