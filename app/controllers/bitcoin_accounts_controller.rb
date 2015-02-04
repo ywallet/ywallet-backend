@@ -37,7 +37,7 @@ class BitcoinAccountsController < ApplicationController
       bitcoin_account.access_token = token_response.token
       bitcoin_account.refresh_token = token_response.refresh_token
       bitcoin_account.expires_in = token_response.expires_in
-      bitcoin_account.account = current_account
+      current_account.bitcoin_account = bitcoin_account
       bitcoin_account.save
       if bitcoin_account.persisted?
         render json: { message: "OK" }
@@ -101,17 +101,21 @@ class BitcoinAccountsController < ApplicationController
     account = current_account
     if account != nil
       p = payment_params
-      bitcoin_account = account.bitcoin_account
-      r = nil
-      if account.is_child?
-        r = bitcoin_account.send_money(to: p.to, amount: p.amount, notes: p.notes, options: { account_id: account.child.wallet_id })
+      if params[:force] == "true" || can_make_payment(account, p)
+        bitcoin_account = account.bitcoin_account
+        r = nil
+        if account.is_child?
+          r = bitcoin_account.send_money(to: p.to, amount: p.amount, notes: p.notes, options: { account_id: account.child.wallet_id })
+        else
+          r = bitcoin_account.send_money(to: p.to, amount: p.amount, notes: p.notes)
+        end
+        if r.success?
+          render json: r.transaction, serializer: TransactionSerializer
+        else
+          render json: { errors: "Couldn't send money" }, status: 500
+        end
       else
-        r = bitcoin_account.send_money(to: p.to, amount: p.amount, notes: p.notes)
-      end
-      if r.success?
-        render json: r.transaction, serializer: TransactionSerializer
-      else
-        render json: { errors: "Couldn't send money" }, status: 500
+        render json: { errors: "You can't make that payment" }
       end
     else
       render json: { errors: "Permission denied" }, status: 403
@@ -130,6 +134,24 @@ class BitcoinAccountsController < ApplicationController
 
     def payment_params
       params.require(:payment).permit(:to, :amount, :notes)
+    end
+
+    def can_make_payment account, payment
+      can = true
+      account.rules.each do |r|
+        expenses = 0
+        if r.period == "day"
+          expenses = account.bitcoin_account.day_expenses
+        elsif r.period == "week"
+          expenses = account.bitcoin_account.week_expenses
+        elsif r.period == "month"
+          expenses = account.bitcoin_account.month_expenses
+        end
+        if expenses + payment.amount > r.amount
+          can = false
+        end
+      end
+      can
     end
 
 end

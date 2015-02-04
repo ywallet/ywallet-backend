@@ -34,6 +34,9 @@ class Ability
 
         #crianca pode consultar as suas regras
         can :read, Rule, :account_id => account.id
+
+        #crianca pode criar e atualizar poupanças
+        can :crud, Saving, :child_id => account.child_id
         
     else
 

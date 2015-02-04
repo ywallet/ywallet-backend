@@ -1,6 +1,6 @@
 class SavingsController < ApplicationController
 
-  #authorize_resource
+  authorize_resource
 
   swagger_controller :savings, "Savings Management"
 
@@ -10,13 +10,17 @@ class SavingsController < ApplicationController
   end
 
   def index
-    if current_account.is_child?
-      savings = Saving.where(child_id: current_account.child)
-      #obtem todas as poupanças da child logada
+    if can? :read, Saving
+      if current_account.is_child?
+        savings = Saving.where(child_id: current_account.child)
+        #obtem todas as poupanças da child logada
+      else
+        savings = nil
+      end
+      render json: savings
     else
-      savings = nil
+      render json: { errors: "You can't access savings" }, status: 403
     end
-    render json: savings
   end
 
   swagger_api :show do
@@ -27,7 +31,11 @@ class SavingsController < ApplicationController
 
   def show
     saving = Saving.find(params[:id])
-    render json: saving
+    if can? :read, saving
+      render json: saving
+    else
+      render json: { errors: "You can't access this saving" }, status: 403
+    end
   end
 
   swagger_api :create do
@@ -40,9 +48,16 @@ class SavingsController < ApplicationController
   end
 
   def create
-    saving = Saving.new(saving_params)
-    saving.save
-    render json: saving
+    if can? :create, Saving
+      saving = Saving.create(saving_params)
+      if saving.persisted?
+        render json: saving
+      else
+        render json: { errors: "Error creating saving" }, status: 422
+      end
+    else
+      render json: { errors: "You can't create savings" }, status: 403
+    end
   end
 
   swagger_api :Update do
@@ -55,9 +70,17 @@ class SavingsController < ApplicationController
   end
 
   def update
-    saving = Saving.new(saving_params)
-    saving.update
-    render json: saving
+    saving = Saving.find(params[:id])
+    if can? :update, saving
+      saving.update(saving_params)
+      if saving.persisted?
+        render json: saving
+      else
+        render json: { errors: "Error updating saving" }, status: 422
+      end
+    else
+      render json: { errors: "You can't access this saving" }, status: 403
+    end
   end
 
   swagger_api :destroy do
@@ -68,16 +91,15 @@ class SavingsController < ApplicationController
 
   def destroy
     saving = Saving.find(params[:id])
-    saving.destroy
-    head :no_content
+    if can? :destroy, saving
+      saving.destroy
+      head :no_content
+    else
+      render json: { errors: "You can't destroy this saving" }, status: 403
+    end
   end
 
   private
-=begin
-    def set_saving
-      saving = Saving.find(params[:id])
-    end
-=end
 
     def saving_params
       params.require(:saving).permit(:finish_date, :value, :child_id)

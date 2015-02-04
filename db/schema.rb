@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150127225216) do
+ActiveRecord::Schema.define(version: 20150129184255) do
 
   create_table "accounts", force: true do |t|
     t.string   "provider"
@@ -41,8 +41,10 @@ ActiveRecord::Schema.define(version: 20150127225216) do
     t.string   "address"
     t.string   "phone"
     t.date     "birthday"
+    t.integer  "bitcoin_account_id"
   end
 
+  add_index "accounts", ["bitcoin_account_id"], name: "index_accounts_on_bitcoin_account_id"
   add_index "accounts", ["child_id"], name: "index_accounts_on_child_id"
   add_index "accounts", ["email"], name: "index_accounts_on_email"
   add_index "accounts", ["manager_id"], name: "index_accounts_on_manager_id"
@@ -55,10 +57,7 @@ ActiveRecord::Schema.define(version: 20150127225216) do
     t.integer  "expires_in",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "account_id"
   end
-
-  add_index "bitcoin_accounts", ["account_id"], name: "index_bitcoin_accounts_on_account_id"
 
   create_table "children", force: true do |t|
     t.integer  "manager_id"
@@ -80,6 +79,8 @@ ActiveRecord::Schema.define(version: 20150127225216) do
     t.integer  "account_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "amount"
+    t.string   "period"
   end
 
   add_index "rules", ["account_id"], name: "index_rules_on_account_id"
