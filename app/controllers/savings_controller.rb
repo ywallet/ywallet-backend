@@ -11,11 +11,10 @@ class SavingsController < ApplicationController
 
   def index
     if can? :read, Saving
+      savings = nil
       if current_account.is_child?
-        savings = Saving.where(child_id: current_account.child)
+        savings = Saving.where(child_id: current_account.child_id)
         #obtem todas as poupanças da child logada
-      else
-        savings = nil
       end
       render json: savings
     else
@@ -53,7 +52,7 @@ class SavingsController < ApplicationController
       if saving.persisted?
         render json: saving
       else
-        render json: { errors: "Error creating saving" }, status: 422
+        render json: { errors: saving.errors.full_messages }.to_json, status: 422
       end
     else
       render json: { errors: "You can't create savings" }, status: 403
@@ -76,7 +75,7 @@ class SavingsController < ApplicationController
       if saving.persisted?
         render json: saving
       else
-        render json: { errors: "Error updating saving" }, status: 422
+        render json: { errors: saving.errors.full_messages }.to_json, status: 422
       end
     else
       render json: { errors: "You can't access this saving" }, status: 403
