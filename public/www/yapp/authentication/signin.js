@@ -5,9 +5,10 @@
         .module("yapp.authentication")
         .controller("SignIn", SignIn);
 
-    SignIn.$inject = ["$scope", "$auth", "StateRouter", "DSUser"];
+    SignIn.$inject = ["$scope", "$auth", "StateRouter", "DSUser", "$q"];
 
-    function SignIn($scope, $auth, StateRouter, DSUser) {
+    function SignIn($scope, $auth, StateRouter, DSUser, $q) {
+        $scope.blocked = false;
         $scope.signinData = {
             email: "",
             password: ""
@@ -18,44 +19,29 @@
         ////////////////////
 
         function doSignIn() {
-            var data = {
-                email: $scope.signinData.email,
-                password: $scope.signinData.password
-            };
-            $scope.signinData.password = "";
-            $auth.submitLogin(data)
-                .then(onSignInSuccess)
-                .catch(onSignInError);
+            $scope.blocked = true;
+            DSUser.auth = $auth.submitLogin($scope.signinData)
+                .then(onSignInSuccess, onSignInError);
         }
 
 
         function onSignInSuccess(resp) {
-            DSUser.putUser(resp.data);
-            StateRouter.goAndForget("yapp.dashboard");
+            console.log("SIGNED IN", resp);
+            if (resp.manager_id != null) {
+                resp.role = "parent";
+                resp.children = [];
+            } else {
+                resp.role = "child";
+            }
+            DSUser.putUser(resp);
+            StateRouter.goAndForget("home");
+            return resp;
         }
 
         function onSignInError(resp) {
-            if (resp && resp.errors && false) {
-                console.error("error authenticating", resp.errors);
-            } else {
-                // TODO development only
-                onSignInSuccess({
-                    data: {
-                        id:         1,
-                        provider:   "email",
-                        uid:        "teste@teste.com",
-                        name:       "teste",
-                        nickname:   null,
-                        image:      null,
-                        email:      "teste@teste.com",
-                        manager_id: 1,
-                        child_id:   null,
-                        address:    null,
-                        phone:      null,
-                        birthday:   null
-                    }
-                });
-            }
+            console.error("error authenticating", resp);
+            StateRouter.goAndForget("home");
+            return $q.reject("error authenticating");
         }
     }
 })();

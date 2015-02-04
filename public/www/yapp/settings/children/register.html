@@ -3,49 +3,51 @@
         <h3 class="text-center">{{ 'settings' | translate }}</h3>
         <p class="text-center">Here you can manage your associated children.</p>
         <form name="childForm" ng-submit="registerChild()" novalidate>
-            <div class="list">
-                <div class="item item-input item-stacked-label">
-                    <label class="input-label">Child Name:</label>
-                    <input type="text" name="childName" ng-model="childData.name" required ng-minlength="3">
-                    <span class="assertive item-text-wrap" ng-show="childForm.childName.$error.required && childForm.childName.$dirty">
-                        This is required.
-                    </span>
-                    <span class="assertive item-text-wrap" ng-show="!childForm.childName.$error.required && childForm.childName.$dirty && childForm.childName.$error.minlength">
-                        A name must be at least 3 characters long.
-                    </span>
+            <fieldset ng-disabled="blocked">
+                <div class="list">
+                    <div class="item item-input item-stacked-label">
+                        <label class="input-label">Child Name:</label>
+                        <input type="text" name="childName" ng-model="childData.name" required ng-minlength="3">
+                        <span class="assertive item-text-wrap" ng-show="childForm.childName.$error.required && childForm.childName.$dirty">
+                            This is required.
+                        </span>
+                        <span class="assertive item-text-wrap" ng-show="!childForm.childName.$error.required && childForm.childName.$dirty && childForm.childName.$error.minlength">
+                            A name must be at least 3 characters long.
+                        </span>
+                    </div>
+                    <div class="item item-input item-stacked-label">
+                        <label class="input-label">Child E-mail:</label>
+                        <input type="email" name="childEmail" ng-model="childData.email" required>
+                        <span class="assertive item-text-wrap" ng-show="childForm.childEmail.$error.required && childForm.childEmail.$dirty">
+                            This is required.
+                        </span>
+                        <span class="assertive item-text-wrap" ng-show="!childForm.childEmail.$error.required && childForm.childEmail.$dirty && childForm.childEmail.$error.email">
+                            That isn't a valid e-mail.
+                        </span>
+                    </div>
+                    <div class="item item-input item-stacked-label">
+                        <label class="input-label">Child Password:</label>
+                        <input type="password" name="childPass" ng-model="childData.password" required ng-minlength="8" ng-maxlength="24">
+                        <span class="assertive item-text-wrap" ng-show="childForm.childPass.$error.required && childForm.childPass.$dirty">
+                            This is required.
+                        </span>
+                        <span class="assertive item-text-wrap" ng-show="!childForm.childPass.$error.required && (childForm.childPass.$error.minlength || childForm.childPass.$error.maxlength) && childForm.childPass.$dirty">
+                            A password must be between 8 and 24 characters long.
+                        </span>
+                    </div>
+                    <div class="item item-input item-stacked-label">
+                        <label class="input-label">Confirm Password:</label>
+                        <input type="password" name="confPass" ng-model="childData.cpass" required confirm-password="childData.password">
+                        <span class="assertive item-text-wrap" ng-show="childForm.confPass.$error.required && childForm.confPass.$dirty">
+                            Please, confirm your password.
+                        </span>
+                        <span class="assertive item-text-wrap" ng-show="!childForm.confPass.$error.required && childForm.confPass.$error.match && childForm.confPass.$dirty">
+                            The passwords don't match!
+                        </span>
+                    </div>
                 </div>
-                <div class="item item-input item-stacked-label">
-                    <label class="input-label">Child E-mail:</label>
-                    <input type="email" name="childEmail" ng-model="childData.email" required>
-                    <span class="assertive item-text-wrap" ng-show="childForm.childEmail.$error.required && childForm.childEmail.$dirty">
-                        This is required.
-                    </span>
-                    <span class="assertive item-text-wrap" ng-show="!childForm.childEmail.$error.required && childForm.childEmail.$dirty && childForm.childEmail.$error.email">
-                        That isn't a valid e-mail.
-                    </span>
-                </div>
-                <div class="item item-input item-stacked-label">
-                    <label class="input-label">Child Password:</label>
-                    <input type="password" name="childPass" ng-model="childData.password" required ng-minlength="6" ng-maxlength="24">
-                    <span class="assertive item-text-wrap" ng-show="childForm.childPass.$error.required && childForm.childPass.$dirty">
-                        This is required.
-                    </span>
-                    <span class="assertive item-text-wrap" ng-show="!childForm.childPass.$error.required && (childForm.childPass.$error.minlength || childForm.childPass.$error.maxlength) && childForm.childPass.$dirty">
-                        A password must be between 6 and 24 characters long.
-                    </span>
-                </div>
-                <div class="item item-input item-stacked-label">
-                    <label class="input-label">Confirm Password:</label>
-                    <input type="password" name="confPass" ng-model="childData.cpass" required confirm-password="childData.password">
-                    <span class="assertive item-text-wrap" ng-show="childForm.confPass.$error.required && childForm.confPass.$dirty">
-                        Please, confirm your password.
-                    </span>
-                    <span class="assertive item-text-wrap" ng-show="!childForm.confPass.$error.required && childForm.confPass.$error.match && childForm.confPass.$dirty">
-                        The passwords don't match!
-                    </span>
-                </div>
-            </div>
-            <button type="submit" class="button button-block button-assertive" ng-disabled="childForm.$invalid">Register Child</button>
+                <button type="submit" class="button button-block button-assertive" ng-disabled="blocked || childForm.$invalid">Register Child</button>
+            </fieldset>
         </form>
     </ion-content>
 </ion-view>

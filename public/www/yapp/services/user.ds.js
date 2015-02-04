@@ -1,19 +1,23 @@
 (function(){
-	'use strict';
+	"use strict";
 
 	angular
-		.module('yapp.services')
-		.factory('DSUser', DSUser);
+		.module("yapp.services")
+		.factory("DSUser", DSUser);
 
-	DSUser.$inject = ['$rootScope', 'DSCacheFactory'];
+	DSUser.$inject = ["$rootScope", "$localStorage", "$http"];
 
-	function DSUser($rootScope, DSCacheFactory) {
-		var cacheKey = 'User';
+	function DSUser($rootScope, $localStorage, $http) {
+		var yUser = null,
+            cacheKey = "yUser-cache";
 
 		var service = {
+            auth: null,
+            getUser: getUser,
 			putUser: putUser,
 			rmUser: rmUser,
-			getUser: getUser
+			loadUser: loadUser,
+            updateUser: updateUser
 		}
 
 		return service;
@@ -22,14 +26,15 @@
         ////////////////////
 
 
-		function getCacheKey() {
-			return cacheKey;
+		function getUser() {
+			return yUser || loadUser();
 		}
 
 
-		function getUser() {
-			var user = DSCacheFactory.get('staticCache').get(cacheKey);
-            if ($rootScope.yUser == null) {
+		function loadUser() {
+			var user = $localStorage.getObject(cacheKey);
+            if (yUser == null) {
+                yUser = user;
                 $rootScope.yUser = user;
             }
             return user;
@@ -37,19 +42,30 @@
 
 
 		function putUser(user) {
-			var userCache = DSCacheFactory.get('staticCache');
-
-			userCache.put(cacheKey, user);
+			$localStorage.setObject(cacheKey, user);
 			$rootScope.yUser = user;
+            yUser = user;
 		}
 
 
 		function rmUser() {
-			var userCache = DSCacheFactory.get('staticCache');
-
-			userCache.remove(cacheKey);
+			$localStorage.setObject(cacheKey, null);
             $rootScope.yUser = null;
+            yUser = null;
 		}
+
+
+        function updateUser(onSuccess, onError) {
+            var role = yUser.role,
+                url = role == "parent" ? "/managers" : "/children";
+            $http.get("http://ywallet.co" + url)
+                .success(function (data) {
+                    data.role = role;
+                    putUser(data);
+                    onSuccess.apply(this, arguments);
+                })
+                .error(onError);
+        }
 	}
 
 })()

@@ -114,3 +114,9 @@ header.positive {
 .double-button button {
     width: 40%
 }
+
+.error_text {
+  color: red;
+  text-decoration: underline;
+  text-align: right;
+}

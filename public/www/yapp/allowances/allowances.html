@@ -1,5 +1,23 @@
 <ion-view title="{{ 'allowances' | translate }}">
-	<ion-content class="has-header" padding="true">
-		<h3>{{ 'allowances' | translate }}</h3>
+	<ion-content class="has-header">
+		<div class="bar bar-header item-input-inset">
+			<label class="item-input-wrapper">
+				<i class="icon ion-ios7-search placeholder-icon"></i>
+				<input type="search" style="border:0px;" placeholder="{{ 'search' | translate }}" ng-model="searchText">				
+			</label>
+			<button class="button button-clear" ng-click="openAddAllowance()"><i class="icon ion-plus-circled"></i></button>
+		</div>
+
+		<ion-list option-buttons="itemButtons" can-swipe="true">
+		    <ion-item class="item item-icon-right" ng-repeat="allowance in allowances | filter: searchText">
+		    	<div class="row">
+					<div class="col"><h2>{{ 'period' | translate }}: {{allowance.period}}</h2></div>
+					<div class="col"><p>{{ 'money' | translate }}: {{allowance.qty | number:2}} €</p></div>
+				</div>
+
+      		    <ion-option-button class="button-dark" style="background: red;" ng-click="rmAllowance(allowance.id)">{{ 'delete' | translate }}</ion-option-button>
+			</ion-item>	
+		</ion-list>	
+
 	</ion-content>
 </ion-view>

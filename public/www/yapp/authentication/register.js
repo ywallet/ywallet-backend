@@ -5,17 +5,18 @@
         .module("yapp.authentication")
         .controller("Register", Register);
 
-    Register.$inject = ["$scope", "$http", "$auth", "StateRouter", "Authenticator", "DSUser"];
+    Register.$inject = ["$scope", "$http", "$auth", "StateRouter", "Authenticator", "DSUser", "$q"];
 
-    function Register($scope, $http, $auth, StateRouter, Authenticator, DSUser) {
-        var userData = null;
-
+    function Register($scope, $http, $auth, StateRouter, Authenticator, DSUser, $q) {
+        $scope.blocked = false;
         $scope.registerData = {
             email: "",
             password: "",
             cpass: "",
             agrees: false
         };
+
+        //$scope.$on("auth:registration-email-success", onRegisterSuccess);
 
         $scope.doRegister = doRegister;
 
@@ -30,43 +31,63 @@
                 return;
             }
             data = {
-                email: $scope.registerData.email,
-                password: $scope.registerData.password,
-                password_confirmation: $scope.registerData.cpass,
-                plan: "FREE"
+                manager: {
+                    account_attributes: {
+                        // plan: "FREE"
+                        name: "yUser",
+                        email: $scope.registerData.email,
+                        password: $scope.registerData.password,
+                        password_confirmation: $scope.registerData.cpass
+                    }
+                }
             };
-            $scope.registerData.password = "";
-            $scope.registerData.cpass = "";
             // register the user
             $auth.submitRegistration(data, { config: "manager" })
                 .then(onRegisterSuccess)
                 .catch(onRegisterError);
+            $scope.blocked = true;
         }
 
         function onRegisterSuccess(resp) {
-            userData = resp;
-            // proceed to coinbase login
-            Authenticator.authenticate("coinbase", onServiceSuccess, onServiceError);
+            resp = resp.data;
+            console.log("REGISTERED", resp);
+            if (resp.children_ids != null) {
+                resp.role = "parent";
+                resp.children = [];
+            } else {
+                resp.role = "child";
+            }
+            DSUser.putUser(resp);
+            goToService();
+            /*DSUser.auth = $auth.submitLogin({
+                email: $scope.registerData.email,
+                password: $scope.registerData.password
+            })
+                .then(goToService);*/
+                //.catch(goHome);
         }
 
         function onRegisterError(resp) {
-            if (resp && resp.errors) {
-                console.error("register error", resp.errors);
-                StateRouter.goAndForget("authentication.index");
-            } else {
-                // TODO development only
-                onRegisterSuccess({
-                    name: "yUser",
-                    role: "parent",
-                    email: "yUser@email.com"
-                });
-            }
+            console.error("register error", resp);
+            StateRouter.goAndForget("authentication.index");
+        }
+
+
+        function goToService() {
+            // proceed to coinbase login
+            console.log("Redirecting to Coinbase...");
+            Authenticator.authenticate("coinbase", onServiceSuccess, onServiceError);
+        }
+
+        function goHome() {
+            // console.error("Validation error after register.");
+            StateRouter.goAndForget("home");
         }
 
 
         function onServiceSuccess(code) {
             // send code to exchange for token
-            $http.post("https://ywallet.herokuapp.com/bitcoin_accounts", {
+            $http.post("http://ywallet.co/bitcoin_accounts", {
                 authentication_code: code
             })
                 .success(onTokenSuccess)
@@ -74,26 +95,28 @@
         }
 
         function onServiceError(error) {
+            // normal behaviour:
             console.error(error);
+            // goHome();
+
             // TODO remove following code, development only
             onTokenSuccess(null, null, null, null);
         }
 
 
         function onTokenSuccess(data, status, headers, config) {
-            DSUser.putUser(userData);
-            // window.localStorage.setItem("access_token", result.access_token);
-            StateRouter.goAndForget("yapp.dashboard");
+            DSUser.auth = $auth.submitLogin({
+                email: $scope.registerData.email,
+                password: $scope.registerData.password
+            }).then(goHome, function () {
+                goHome();
+                return $q.reject("error authenticating");
+            });
         }
 
         function onTokenError(data, status, headers, config) {
-            if (data && data.errors) {
-                console.error("token exchange error", data.errors);
-                StateRouter.goAndForget("authentication.index");
-            } else {
-                // TODO development only
-                onTokenSuccess(null, status, headers, config);
-            }
+            console.error("token exchange error", data);
+            StateRouter.goAndForget("authentication.index");
         }
     }
 })();

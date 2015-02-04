@@ -1,0 +1,40 @@
+<ion-modal-view>
+	<ion-header-bar>
+		<h1 class="title">{{ 'add' | translate }} {{ 'allowances' | translate }}</h1>
+		<div class="buttons">
+			<button class="button button-clear" ng-click="closeAddAllowance()">{{ 'exit' | translate }}</button>
+		</div>
+	</ion-header-bar>
+	<ion-content>
+		<form name="addAllowanceForm" ng-submit="addAllowance()">
+			<div class="list">
+				<label class="item item-input item-select">
+					<span class="input-label">{{ 'period' | translate }}</span>
+					<select name="period" ng-model="allowanceData.period" required>
+						<option value="" disabled selected>{{ 'period' | translate }}</option>
+						<option value="day">{{ 'day' | translate }}</option>
+						<option value="week">{{ 'week' | translate }}</option>
+						<option value="month">{{ 'month' | translate }}</option>
+					</select>
+				</label>
+                <label class="item item-input error_text" ng-show="addAllowanceForm.period.$dirty && addAllowanceForm.period.$error.required">
+                	{{ 'requiredfield' | translate }}
+            	</label>
+
+				<label class="item item-input">
+					<span class="input-label">{{ 'money' | translate }}</span>
+					<input type="number" step="any" name="qty" ng-model="allowanceData.qty" placeholder="{{ 'money' | translate }}" required>
+				</label>
+                <label class="item item-input error_text" ng-show="addAllowanceForm.qty.$dirty && addAllowanceForm.qty.$error.required">
+                	{{ 'requiredfield' | translate }}
+            	</label>
+            									
+				<label class="item">
+					<button class="button button-block button-assertive" type="submit">
+						{{ 'add' | translate }} {{ 'allowances' | translate }}
+					</button>
+				</label>
+			</div>
+		</form>
+	</ion-content>
+</ion-modal-view>

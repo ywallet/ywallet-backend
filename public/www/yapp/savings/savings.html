@@ -3,29 +3,27 @@
 		<div class="bar bar-header item-input-inset">
 			<label class="item-input-wrapper">
 				<i class="icon ion-ios7-search placeholder-icon"></i>
-				<input type="search" placeholder="Search" ng-model="searchText">				
+				<input type="search" style="border:0px;" placeholder="{{ 'search' | translate }}" ng-model="searchText">				
 			</label>
-			&nbsp;
-			<i class="icon ion-plus-circled" ng-click="openAddSaving()"></i>
+			<button class="button button-clear" ng-click="openAddSaving()"><i class="icon ion-plus-circled"></i></button>
 		</div>
 		<div class="card" ng-repeat="save in savings | filter: searchText | orderBy:'deadline':false">
 			<div class="item item-divider item-energized">
 				{{save.title}}
-				<u style="float: right;">{{save.qty}} €</u>
+				<u style="float: right;">{{save.qty | number:2}} €</u>
 			</div>
 			<a class="item item-text-wrap item-icon-right">
 				{{save.description}}
 			</a>
 			<div class="item item-divider">
 				<span style="font-size: 12px;">
-					Data Limite: {{save.deadline | date: 'dd/MM/yyyy'}}
+					{{ 'deadline' | translate }}: {{save.deadline | date: 'dd/MM/yyyy'}}
 				</span>
 				<button class="button button-small button-assertive" style="float: right;  background: red;" ng-click="rmSaving(save.id)">
-					Apagar
+					{{ 'delete' | translate }}
 				</button>
 			</div>			
 		</div>
 		
-		</ion-list>	
 	</ion-content>
 </ion-view>

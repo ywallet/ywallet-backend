@@ -1,27 +1,29 @@
 <ion-view title="yWallet">
     <ion-content class="has-header padding">
         <form name="signinForm" ng-submit="doSignIn()" novalidate>
-            <div class="list">
-                <div class="item item-input item-stacked-label">
-                    <label class="input-label">Your E-mail:</label>
-                    <input type="email" name="userEmail" ng-model="signinData.email" required>
-                    <span class="assertive item-text-wrap" ng-show="signinForm.userEmail.$error.required && signinForm.userEmail.$dirty">
-                        This is required.
-                    </span>
-                    <span class="assertive item-text-wrap" ng-show="!signinForm.userEmail.$error.required && signinForm.userEmail.$dirty && signinForm.userEmail.$error.email">
-                        That isn't a valid e-mail.
-                    </span>
+            <fieldset ng-disable="blocked">
+                <div class="list">
+                    <div class="item item-input item-stacked-label">
+                        <label class="input-label">Your E-mail:</label>
+                        <input type="email" name="userEmail" ng-model="signinData.email" required>
+                        <span class="assertive item-text-wrap" ng-show="signinForm.userEmail.$error.required && signinForm.userEmail.$dirty">
+                            This is required.
+                        </span>
+                        <span class="assertive item-text-wrap" ng-show="!signinForm.userEmail.$error.required && signinForm.userEmail.$dirty && signinForm.userEmail.$error.email">
+                            That isn't a valid e-mail.
+                        </span>
+                    </div>
+                    <div class="item item-input item-stacked-label">
+                        <label class="input-label">Your Password:</label>
+                        <input type="password" name="userPass" ng-model="signinData.password" required maxlength="24">
+                        <span class="assertive item-text-wrap" ng-show="signinForm.userPass.$error.required && signinForm.userPass.$dirty">
+                            This is required.
+                        </span>
+                    </div>
                 </div>
-                <div class="item item-input item-stacked-label">
-                    <label class="input-label">Your Password:</label>
-                    <input type="password" name="userPass" ng-model="signinData.password" required maxlength="24">
-                    <span class="assertive item-text-wrap" ng-show="signinForm.userPass.$error.required && signinForm.userPass.$dirty">
-                        This is required.
-                    </span>
-                </div>
-            </div>
-            <button type="submit" class="button button-block button-positive" ng-disabled="signinForm.$invalid">Sign in</button>
+                <button type="submit" class="button button-block button-positive" ng-disabled="blocked || signinForm.$invalid">Sign in</button>
+            </fieldset>
         </form>
-        <a class="button button-block button-clear" ui-sref="authentication.recovery">Forgot Password?</a>
+        <a class="button button-block button-clear" ui-sref="authentication.recovery" ng-disabled="blocked">Forgot Password?</a>
     </ion-content>
 </ion-view>

@@ -4,9 +4,9 @@
         .module("yapp")
 		.run(runFunction);
 
-    runFunction.$inject = ['$ionicPlatform', '$q', 'DSCacheFactory'];
-    function runFunction($ionicPlatform, $q, DSCacheFactory) {
+    runFunction.$inject = ["$ionicPlatform", "$q", "DSCacheFactory"];
 
+    function runFunction($ionicPlatform, $q, DSCacheFactory) {
         $ionicPlatform.ready(function() {
 						setTimeout(function() {
 							$cordovaSplashScreen.hide()
@@ -23,13 +23,18 @@
             }
 
             // caches for services
-            if (DSCacheFactory.get('localCache') == null) {
-                DSCacheFactory('localCache', {storageMode: 'localStorage', maxAge: 5000, deleteOnExpire: 'aggressive'});
+            /*
+            Creating a new cache clears all saved data from previous runs.
+            Creating a new static cache clears user data from previous run.
+            If you refresh a page with an active session, user data will be lost,
+            but you will keep the auth tokens, which don't use these caches.
+            */
+            if (DSCacheFactory.get("localCache") == null) {
+                DSCacheFactory("localCache", {storageMode: "localStorage", maxAge: 5000, deleteOnExpire: "aggressive"});
             }
-            if (DSCacheFactory.get('staticCache') == null) {
-                DSCacheFactory('staticCache', {storageMode: 'localStorage'});
+            if (DSCacheFactory.get("staticCache") == null) {
+                DSCacheFactory("staticCache", {storageMode: "localStorage"});
             }
         });
-    }  
-
+    }
 })();
