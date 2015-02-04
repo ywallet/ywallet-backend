@@ -10,6 +10,7 @@ var translations_es = {
         signout: 'Salir',
 		
     search: 'Buscar',
+    delete: 'Borrar',
     cancel: 'Reset',
     about: 'Acerca de ',
     home: 'Inicio',

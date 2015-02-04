@@ -3,20 +3,19 @@
 
 	angular
 		.module('yapp.services')
-		.factory('DSavings', DSavings);
+		.factory('DSAllowances', DSAllowances);
 
-	DSavings.$inject = ['$http', '$q', '$ionicLoading', 'DSCacheFactory'];
-	function DSavings($http, $q, $ionicLoading, DSCacheFactory)
+	DSAllowances.$inject = ['$http', '$q', '$ionicLoading', 'DSCacheFactory'];
+	function DSAllowances($http, $q, $ionicLoading, DSCacheFactory)
 	{
-		var cacheKey = 'Savings';
-		//var hostname = (!window.cordova) ? 'api/' : '/android_asset/www/api/';
-		var hostname = 'http://ywallet.co/';
+		var cacheKey = 'Allowances';
+		var hostname = (!window.cordova) ? 'api/' : '/android_asset/www/api/';
 
 		var service = {
 			getCacheKey : getCacheKey,
-			addSaving: addSaving,
-			rmSaving: rmSaving,
-			getSavings: getSavings
+			addAllowance: addAllowance,
+			rmAllowance: rmAllowance,
+			getAllowances: getAllowances
 		}
 
 		return service;
@@ -25,25 +24,25 @@
 			return cacheKey;
 		}
 
-		function getSavings(loadCache) {
+		function getAllowances(loadCache) {
 
 			var deferred = $q.defer(),
-				savingsCache = DSCacheFactory.get('localCache'),
-				savings = savingsCache.get(cacheKey);
+				allowancesCache = DSCacheFactory.get('localCache'),
+				allowances = allowancesCache.get(cacheKey);
 
 			if( loadCache === undefined )
 				var loadCache = false;
 
-			if( savings )
-				deferred.resolve(savings);
+			if( allowances )
+				deferred.resolve(allowances);
 			else
 			{
 				if( !loadCache )
 					$ionicLoading.show({ template: 'Loading...'});
 
-				$http.get(hostname + 'savings')
+				$http.get(hostname + 'allowances.json')
 					.success(function(data, status){
-						savingsCache.put(cacheKey, data);
+						allowancesCache.put(cacheKey, data);
 						deferred.resolve(data);
 
 						if( !loadCache )
@@ -60,14 +59,14 @@
 			return deferred.promise;
 		}
 		
-		function addSaving(title, description, qty, deadline) {
+		function addAllowance(qty, period) {
 			var deferred = $q.defer();
 			deferred.resolve(10);
 
 			return deferred.promise;
 		}
 
-		function rmSaving(id) {
+		function rmAllowance(id) {
 
 		}
 	}

@@ -5,15 +5,19 @@
         .module('yapp')
         .config(configureAuth);
 
-    configureAuth.$inject = ["$authProvider"];
+    configureAuth.$inject = ["$authProvider", "$httpProvider"];
 
-    function configureAuth($authProvider) {
-        var apiUrl = "https://ywallet.herokuapp.com";
+    function configureAuth($authProvider, $httpProvider) {
+        $httpProvider.defaults.useXDomain = true;
+
+        // var apiUrl = "https://ywallet.herokuapp.com";
+        var apiUrl = "http://ywallet.co";
 
         $authProvider.configure([{
             default: {
                 apiUrl: apiUrl,
                 emailSignInPath: "/auth/sign_in.json",
+                storage: 'localStorage',
                 /*
                 tokenValidationPath:     '/auth/validate_token',
                 signOutUrl:              '/auth/sign_out',
@@ -25,7 +29,6 @@
                 passwordUpdatePath:      '/auth/password',
                 passwordResetSuccessUrl: window.location.href,
                 emailSignInPath:         '/auth/sign_in',
-                storage:                 'cookies',
                 proxyIf:                 function() { return false; },
                 proxyUrl:                '/proxy',
                 authProviderPaths: {

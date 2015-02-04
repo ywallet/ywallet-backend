@@ -5,8 +5,8 @@
         .module('yapp.savings')
         .controller('Savings', Savings)
 
- 	Savings.$inject = ['$scope', '$ionicModal', '$cordovaDevice', 'DSavings'];
-	function Savings($scope, $ionicModal, $cordovaDevice, DSavings)
+ 	Savings.$inject = ['$scope', '$ionicModal', 'DSavings'];
+	function Savings($scope, $ionicModal, DSavings)
 	{
 		DSavings.getSavings().then(function(data){
 
@@ -31,15 +31,23 @@
 			};
 
 			$scope.addSaving = function() {
-				console.log('Doing login', $scope.loginData);
 
-				// Simulate a login delay. Remove this and replace with your login
-				// code if using a login system
-				$timeout(function() {
-				$scope.closeLogin();
-				}, 1000);
-			};			
-			
+				DSavings.addSaving($scope.savingData.title, $scope.savingData.description, $scope.savingData.qty, $scope.savingData.deadline).then(function(data){
+
+					$scope.savings.push(	{
+						"id": data.id, 
+						"title": $scope.savingData.title,
+						"description": $scope.savingData.description,
+						"qty": $scope.savingData.qty,
+						"deadline": $scope.savingData.deadline 
+					});
+
+					$scope.savingData = {};
+					$scope.closeAddSaving();
+
+				});
+			};
+
 			// Remove Saving
 	        $scope.rmSaving = function(id) {
 	        	var lengthSavings = $scope.savings.length;

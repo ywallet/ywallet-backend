@@ -5,9 +5,12 @@
         .module('yapp.history')
         .controller('History', History)
 
-    function History()
+    History.$inject = ['$scope', 'DSHistory'];
+    function History($scope, DSHistory)
     {
-        console.log('History');
+		DSHistory.getHistory().then(function(data){
+			$scope.transactions = data;	
+		});        
     }
 
 })();

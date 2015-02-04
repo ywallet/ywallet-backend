@@ -8,7 +8,7 @@
     ManageChildren.$inject = ["$scope", "$rootScope"];
 
     function ManageChildren($scope, $rootScope) {
-        $scope.children = [{
+        $scope.children = $rootScope.yUser.children || [{
             name: "Joãozinho"
         }, {
             name: "Maria"
@@ -19,7 +19,7 @@
         ////////////////////////////
 
         function rmChild(index) {
-            $scope.children.splice(index, 1);
+            // $scope.children.splice(index, 1);
         }
     }
 
