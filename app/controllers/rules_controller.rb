@@ -97,6 +97,6 @@ class RulesController < ApplicationController
 
   private
     def rule_params
-      params.require(:rule).permit(:active, :notifies, :account_id)
+      params.require(:rule).permit(:account_id, :amount, :period, :active)
     end
 end

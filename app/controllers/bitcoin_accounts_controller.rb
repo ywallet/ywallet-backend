@@ -139,16 +139,18 @@ class BitcoinAccountsController < ApplicationController
     def can_make_payment account, payment
       can = true
       account.rules.each do |r|
-        expenses = 0
-        if r.period == "day"
-          expenses = account.bitcoin_account.day_expenses
-        elsif r.period == "week"
-          expenses = account.bitcoin_account.week_expenses
-        elsif r.period == "month"
-          expenses = account.bitcoin_account.month_expenses
-        end
-        if expenses + payment.amount > r.amount
-          can = false
+        if r.active
+          expenses = 0
+          if r.period == "day"
+            expenses = account.bitcoin_account.day_expenses
+          elsif r.period == "week"
+            expenses = account.bitcoin_account.week_expenses
+          elsif r.period == "month"
+            expenses = account.bitcoin_account.month_expenses
+          end
+          if expenses + payment.amount > r.amount
+            can = false
+          end
         end
       end
       can
