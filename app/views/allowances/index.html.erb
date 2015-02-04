@@ -1,0 +1,29 @@
+<h1>Listing allowances</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Amount</th>
+      <th>Period</th>
+      <th>Child</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @allowances.each do |allowance| %>
+      <tr>
+        <td><%= allowance.amount %></td>
+        <td><%= allowance.period %></td>
+        <td><%= allowance.child %></td>
+        <td><%= link_to 'Show', allowance %></td>
+        <td><%= link_to 'Edit', edit_allowance_path(allowance) %></td>
+        <td><%= link_to 'Destroy', allowance, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Allowance', new_allowance_path %>

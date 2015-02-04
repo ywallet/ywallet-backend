@@ -1,0 +1,29 @@
+<%= form_for(@allowance) do |f| %>
+  <% if @allowance.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@allowance.errors.count, "error") %> prohibited this allowance from being saved:</h2>
+
+      <ul>
+      <% @allowance.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :amount %><br>
+    <%= f.number_field :amount %>
+  </div>
+  <div class="field">
+    <%= f.label :period %><br>
+    <%= f.text_field :period %>
+  </div>
+  <div class="field">
+    <%= f.label :child_id %><br>
+    <%= f.text_field :child_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

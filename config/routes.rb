@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   
 
+  resources :allowances
+
   resources :savings
 
   defaults format: :json do
