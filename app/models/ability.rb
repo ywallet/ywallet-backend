@@ -21,6 +21,8 @@ class Ability
         #manager pode criar, ler, atualizar e destruir as regras do(s) seus filho(s)
         can :crud, Rule, :account => { :child_id => account.manager.child_ids }
 
+        can :crud, Allowance, :child => { :id => account.manager.child_ids }
+
         #manager pode criar e atualizar tokens do coinbase
         can :crud, BitcoinAccount, :account_id => account.id
 
@@ -34,8 +36,11 @@ class Ability
         #crianca pode consultar os dados do seu manager
         can :read, Manager, :id => account.child.manager_id
 
-        #crianca pode consultar as suas regras
-        can :read, Rule, :account_id => account.id
+        #crianca pode criar e atualizar as suas regras
+        can :crud, Rule, :account_id => account.id
+
+        #crianca pode consultar as suas mesadas
+        can :read, Allowance, :child_id => account.child_id
 
         #crianca pode criar e atualizar poupanças
         can :crud, Saving, :child_id => account.child_id
