@@ -30,8 +30,9 @@ class RulesController < ApplicationController
   swagger_api :create do
     summary "Create a single Rule"
     param :form, :rule, :string, :required, "Rule object containing params"
-    param :form, :active, :string, :required, "rule[:active]"
-    param :form, :notifies, :string, :required, "rule[:notifies]"
+    param :form, :amount, :string, :required, "rule[amount]"
+    param :form, :period, :string, :required, "rule[period]"
+    param :form, :active, :string, :optional, "rule[active]"
     param :form, :account_id, :integer, :required, "rule[:account_id]"
     response :created, "Created", :Rule
     response :unprocessable_entity, "Unprocessable Entity"
@@ -58,9 +59,10 @@ class RulesController < ApplicationController
     summary "Update information on a Rule"
     param :path, :id, :integer, :required, "Rule ID"
     param :form, :rule, :string, :required, "Rule object containing params"
-    param :form, :active, :string, :optional, "rule[:active]"
-    param :form, :notifies, :string, :optional, "rule[:notifies]"
-    param :form, :account_id, :string, :optional, "account_attributes[:account_id]"
+    param :form, :amount, :string, :required, "rule[amount]"
+    param :form, :period, :string, :required, "rule[period]"
+    param :form, :active, :string, :optional, "rule[active]"
+    param :form, :account_id, :integer, :required, "rule[:account_id]"
     response :ok, "Success", :Rule
     response :unprocessable_entity, "Unprocessable Entity"
     response :forbidden, "You can't access this manager"
@@ -97,6 +99,6 @@ class RulesController < ApplicationController
 
   private
     def rule_params
-      params.require(:rule).permit(:active, :notifies, :account_id)
+      params.require(:rule).permit(:account_id, :amount, :period, :active)
     end
 end
