@@ -65,8 +65,10 @@ class ChildrenController < ApplicationController
       end
 
       wallet_id = current_account.bitcoin_account.create_wallet(name)
+
       if wallet_id
         child = Child.new(child_params.merge(:wallet_id => wallet_id))
+        child.manager = current_account.manager
         child.account.bitcoin_account = current_account.bitcoin_account
 
         if child.save

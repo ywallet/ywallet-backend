@@ -4,11 +4,9 @@ class RulesController < ApplicationController
 
   swagger_controller :rules, "Rules Management"
 
-=begin
-  def index
-    render json: Rule.all
-  end
-=end
+  # def index
+  #   render json: Rule.all
+  # end
 
   swagger_api :show do
     summary "Fetches a single rule"

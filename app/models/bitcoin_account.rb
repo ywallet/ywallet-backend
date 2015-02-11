@@ -16,9 +16,16 @@ class BitcoinAccount < ActiveRecord::Base
 
 	def create_wallet name
 		coinbase = init
-		wallet_response = coinbase.post("/accounts", :account => { :name => name }).to_hash
+		wallet_response = coinbase.post("/accounts", :account => { :name => "ywallet_#{name}" }).to_hash
 		refresh! coinbase.oauth_token
 		wallet_response["account"]["id"]
+	end
+
+	def name
+		coinbase = init
+		user_response = coinbase.get("/users/self").to_hash
+		refresh! coinbase.oauth_token
+		user_response["user"]["name"]
 	end
 
 	def balance
@@ -28,12 +35,22 @@ class BitcoinAccount < ActiveRecord::Base
 		balance # Money (https://github.com/RubyMoney/money)
 	end
 
+	def address wallet_id=nil
+		coinbase = init
+		url = "/accounts/#{wallet_id}/address"
+		address_result = coinbase.get(url).to_hash
+		refresh! coinbase.oauth_token
+		address_result["address"]
+	end
+
 	def wallet_balance wallet_id
 		coinbase = init
-		balance = coinbase.get("/accounts/#{wallet_id}/balance").to_hash
+		url = "/accounts/#{wallet_id}/balance"
+		balance_response = coinbase.get(url)
 		refresh! coinbase.oauth_token
-		balance # Money (https://github.com/RubyMoney/money)
+		balance_response['amount'].to_money(balance_response['currency']) # Money (https://github.com/RubyMoney/money)
 	end
+
 
 	def send_money to, amount, notes=nil, options={}
 		coinbase = init

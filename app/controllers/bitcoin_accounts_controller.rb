@@ -2,7 +2,8 @@ require 'oauth2'
 
 class BitcoinAccountsController < ApplicationController
 
-  authorize_resource
+  # authorize_resource
+  before_action :authenticate_account! #, only: [:transactions, :payment]
 
   swagger_controller :bitcoin_account, "Bitcoin Account Management"
 
@@ -29,7 +30,7 @@ class BitcoinAccountsController < ApplicationController
     if can? :create, BitcoinAccount
       client_id = '694fc2f618facf30b3b41726ee6d0ac04c650669ca3d114cb0bae4223cecade3'
       client_secret = '3e7cfd07d829211ac50dd6486fe677ca76e965f25ad7d68e67e845e0d4a213e7'
-      redirect_uri = 'https://ywallet.callback/coinbase/'
+      redirect_uri = 'urn:ietf:wg:oauth:2.0:oob'
       code = bitcoin_account_params
       client = OAuth2::Client.new(client_id, client_secret, site: 'https://coinbase.com')
       token_response = client.auth_code.get_token(code, redirect_uri: redirect_uri)
@@ -37,9 +38,14 @@ class BitcoinAccountsController < ApplicationController
       bitcoin_account.access_token = token_response.token
       bitcoin_account.refresh_token = token_response.refresh_token
       bitcoin_account.expires_in = token_response.expires_in
+      
       current_account.bitcoin_account = bitcoin_account
+      current_account.name = bitcoin_account.name
+
       bitcoin_account.save
-      if bitcoin_account.persisted?
+      current_account.save
+
+      if bitcoin_account.persisted? && current_account.persisted?
         render json: { message: "OK" }
       else
         render json: { errors: "Could not create the access token" }, status: 422
@@ -104,12 +110,14 @@ class BitcoinAccountsController < ApplicationController
       p = payment_params
       if params[:force] == "true" || can_make_payment(account, p)
         bitcoin_account = account.bitcoin_account
+
         r = nil
         if account.is_child?
           r = bitcoin_account.send_money(to: p.to, amount: p.amount, notes: p.notes, options: { account_id: account.child.wallet_id })
         else
           r = bitcoin_account.send_money(to: p.to, amount: p.amount, notes: p.notes)
         end
+
         if r.success?
           render json: r.transaction, serializer: TransactionSerializer
         else
@@ -117,6 +125,36 @@ class BitcoinAccountsController < ApplicationController
         end
       else
         render json: { errors: "You can't make that payment" }
+      end
+    else
+      render json: { errors: "Permission denied" }, status: 403
+    end
+  end
+
+
+  def coinbase_callback
+    if can? :create, BitcoinAccount
+      client_id = '694fc2f618facf30b3b41726ee6d0ac04c650669ca3d114cb0bae4223cecade3'
+      client_secret = '3e7cfd07d829211ac50dd6486fe677ca76e965f25ad7d68e67e845e0d4a213e7'
+      redirect_uri = 'http://ywallet.co/auth/coinbase'
+      code = bitcoin_account_params
+      client = OAuth2::Client.new(client_id, client_secret, site: 'https://coinbase.com')
+      token_response = client.auth_code.get_token(code, redirect_uri: redirect_uri)
+      bitcoin_account = BitcoinAccount.new
+      bitcoin_account.access_token = token_response.token
+      bitcoin_account.refresh_token = token_response.refresh_token
+      bitcoin_account.expires_in = token_response.expires_in
+      
+      current_account.bitcoin_account = bitcoin_account
+      current_account.name = bitcoin_account.name
+
+      bitcoin_account.save
+      current_account.save
+
+      if bitcoin_account.persisted?
+        redirect_to "http://ywallet.co/www/index.html"
+      else
+        render json: { errors: "Could not create the access token" }, status: 422
       end
     else
       render json: { errors: "Permission denied" }, status: 403

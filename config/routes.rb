@@ -9,6 +9,8 @@ Rails.application.routes.draw do
     constraints format: :json do
       resources :rules
 
+      get "/auth/coinbase", to: "bitcoin_accounts#coinbase_callback"
+
       mount_devise_token_auth_for 'Account', at: '/auth'
       
       resources :children

@@ -1,5 +1,5 @@
 class ManagerSerializer < ActiveModel::Serializer
-	attributes :id, :name, :nickname, :email, :birthday, :phone, :address, :account_id, :children_ids, :balance, :transactions, :week_transactions
+	attributes :id, :name, :nickname, :email, :birthday, :phone, :address, :account_id, :children_ids, :rule_ids, :balance, :transactions, :week_transactions
 
 	def name
 		object.account.name if object.account != nil
@@ -35,6 +35,12 @@ class ManagerSerializer < ActiveModel::Serializer
 
 	def balance
 		object.account.bitcoin_account.balance.to_s if (object.account != nil && object.account.bitcoin_account != nil)
+	end
+
+	def rule_ids
+		if object.account != nil
+			object.account.rule_ids
+		end
 	end
 
 	def transactions
